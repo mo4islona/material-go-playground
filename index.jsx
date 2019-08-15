@@ -158,13 +158,10 @@ function App() {
                   main: orange[500],
                 },
               },
-              shape: {
-                borderRadius: 20,
-              },
               overrides: {
-                MuiPaper: {
-                  rounded: {
-                    borderRadius: "4px !important",
+                MuiButton: {
+                  root: {
+                    borderRadius: "20px !important",
                   },
                 },
               },
@@ -189,13 +186,10 @@ function App() {
                 typography: {
                   fontFamily: "monospace",
                 },
-                shape: {
-                  borderRadius: 100,
-                },
                 overrides: {
-                  MuiPaper: {
-                    rounded: {
-                      borderRadius: "4px !important",
+                  MuiButton: {
+                    root: {
+                      borderRadius: "20px !important",
                     },
                   },
                 },
@@ -255,8 +249,8 @@ function App() {
             <GoPlayground
               code={codeLongOutput}
               hideFormat
-              resultHeight={80}
               editorHeight={150}
+              resultHeight={80}
               compactButtons
               title={<Title>Editor height 150px<br/>Result height 80px</Title>}
             />

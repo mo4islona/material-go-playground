@@ -17,12 +17,13 @@ import Paper from "@material-ui/core/Paper";
 import PlayArrow from "@material-ui/icons/PlayArrow";
 import Format from "@material-ui/icons/FormatAlignLeft";
 
-import AppBar from "./AppBar";
+import App from "./App";
 import Button from "./Button";
 import Settings from "./Settings";
 import Errors from "./Errors";
 import Result from "./Result";
 import createTheme from "./createTheme";
+import { render } from "react-dom";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -98,7 +99,7 @@ export default function GoPlayground(props) {
     toolBarStyle = {},
     settingsIconStyle = {},
     editorHeight = 300,
-    resultHeight = null,
+    resultHeight = 80,
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
@@ -180,7 +181,7 @@ export default function GoPlayground(props) {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <AppBar position="static" className={classes.root}>
+      <App className={classes.root}>
         <Toolbar className={classes.toolbar} style={{...toolBarStyle, display: hideHeader ? 'none' : null}}>
           <div className={classes.header}>
             {title && <span className={classes.title}>{title}</span>}
@@ -227,7 +228,7 @@ export default function GoPlayground(props) {
           <Errors errors={result.Errors} loading={running} resultHeight={resultHeight}/>
           <Result result={result} loading={running} resultHeight={resultHeight}/>
         </div>
-      </AppBar>
+      </App>
     </MuiThemeProvider>
   );
 }
@@ -248,4 +249,7 @@ GoPlayground.propTypes = {
   settingsIconStyle: PropTypes.object,
 };
 
-GoPlayground.createTheme = createTheme;
+GoPlayground.create = (element, props) => {
+  render(React.createElement(GoPlayground, props, null), element);
+};
+

@@ -1,6 +1,6 @@
 {
   "name": "material-go-playground",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "React Material UI component for Golang playground",
   "engines": {
     "node": "^10.15.3",
@@ -15,8 +15,9 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.config.js",
-    "build": "webpack --config webpack.build.config.js",
+    "start": "webpack-dev-server --config configs/webpack.dev.config.js",
+    "build": "webpack --config configs/webpack.build.config.js",
+    "widget": "webpack --config configs/webpack.widget.config.js",
     "lint": "eslint src --ext .js,.jsx",
     "test": "jest"
   },

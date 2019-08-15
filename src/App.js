@@ -6,10 +6,14 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.primary.main,
     fontSize: theme.typography.fontSize,
     color: theme.palette.text.primary,
+    borderRadius: theme.shape.borderRadius,
+    // display: 'flex',
+    // height: '100%',
+    // flexDirection: 'column'
   },
 }));
 
-export default function AppBar({children}) {
+export default function App({children}) {
   const classes = useStyles();
 
   return <div className={classes.root}>{children}</div>;

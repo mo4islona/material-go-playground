@@ -35,8 +35,8 @@ const useStyles = makeStyles(theme => ({
     opacity: 0.6,
   },
   successText: {
-    flex: 1,
     paddingTop: 12,
+    width: '100%',
     overflow: 'scroll'
   },
   pre: {
