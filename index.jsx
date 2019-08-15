@@ -217,21 +217,19 @@ function App() {
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
-              code={code}
+              code={codeLongOutput}
               hideFormat
+              resultHeight={80}
               editorHeight={150}
-              compactButtons showFormat={false}
-              title={<Title>Editor height 150px</Title>}
+              compactButtons
+              title={<Title>Editor height 150px<br />Result height 80px</Title>}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
+            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Without header</Typography>
             <GoPlayground
-              code={codeLongOutput}
-              hideFormat
-              resultMaxHeight={100}
-              editorHeight={150}
-              compactButtons showFormat={false}
-              title={<Title>Result height 100px</Title>}
+              code={code}
+              hideHeader
             />
           </Grid>
         </Grid>

@@ -1,6 +1,6 @@
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
-export function isObject(item) {
+function isObject(item) {
   return (item && typeof item === "object" && !Array.isArray(item));
 }
 
@@ -9,7 +9,7 @@ export function isObject(item) {
  * @param target
  * @param ...sources
  */
-export function mergeDeep(target, ...sources) {
+function mergeDeep(target, ...sources) {
   if (!sources.length) return target;
   const source = sources.shift();
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import MatButton from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Fade } from "@material-ui/core";
+import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles(theme => ({
   iconWrapper: {

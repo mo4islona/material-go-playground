@@ -8,3 +8,4 @@ webpack.*
 index.html
 index.jsx
 *.tgz
+.DS_Store

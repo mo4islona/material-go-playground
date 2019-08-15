@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function AppBar({ children }) {
+export default function AppBar({children}) {
   const classes = useStyles();
 
   return <div className={classes.root}>{children}</div>;

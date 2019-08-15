@@ -15,8 +15,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import PlayArrow from "@material-ui/icons/PlayArrow";
-
 import Format from "@material-ui/icons/Spellcheck";
+
 import AppBar from "./AppBar";
 import Button from "./Button";
 import Settings from "./Settings";
@@ -87,13 +87,14 @@ export default function GoPlayground(props) {
     color = "dark",
     server = "https://play.golang.org/",
     hideFormat = false,
+    hideHeader = false,
     compactButtons = false,
     theme: themeExtend = {},
     readOnly = false,
     toolBarStyle = {},
     settingsIconStyle = {},
     editorHeight = 300,
-    resultMaxHeight = null,
+    resultHeight = null,
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
@@ -116,7 +117,7 @@ export default function GoPlayground(props) {
       viewportMargin: Infinity,
       keyMap: "sublime",
       extraKeys: {
-        "Cmd-Enter": function() {
+        "Cmd-Enter": function () {
           runBtn.current.click();
         },
       },
@@ -152,7 +153,7 @@ export default function GoPlayground(props) {
   return (
     <MuiThemeProvider theme={theme}>
       <AppBar position="static" className={classes.root}>
-        <Toolbar className={classes.toolbar} style={toolBarStyle}>
+        {!hideHeader && <Toolbar className={classes.toolbar} style={toolBarStyle}>
           <div className={classes.header}>
             {title && <span className={classes.title}>{title}</span>}
             <Button
@@ -184,18 +185,18 @@ export default function GoPlayground(props) {
             themeExtend={themeExtend}
             settingsIconStyle={settingsIconStyle}
           />
-        </Toolbar>
+        </Toolbar>}
 
         <Paper>
-          <div className={classes.editor} ref={editor} style={{height: editorHeight}} />
+          <div className={classes.editor} ref={editor} style={{height: editorHeight}}/>
         </Paper>
 
         <div className={classes.result}>
           <Fade in={running && (!!result.Events || !!result.Errors)} timeout={200}>
             <div className={classes.resultOverlay}><CircularProgress color="secondary"/></div>
           </Fade>
-          <Errors errors={result.Errors} loading={running} resultMaxHeight={resultMaxHeight}/>
-          <Result events={result.Events} loading={running} resultMaxHeight={resultMaxHeight}/>
+          <Errors errors={result.Errors} loading={running} resultHeight={resultHeight}/>
+          <Result events={result.Events} loading={running} resultHeight={resultHeight}/>
         </div>
       </AppBar>
     </MuiThemeProvider>
@@ -208,11 +209,12 @@ GoPlayground.propTypes = {
   color: PropTypes.oneOf(["light", "dark"]),
   theme: PropTypes.object,
   server: PropTypes.string,
-  hideFormat: PropTypes.bool,
   compactButtons: PropTypes.bool,
   readOnly: PropTypes.bool,
-  resultMaxHeight: PropTypes.number,
+  resultHeight: PropTypes.number,
+  hideHeader: PropTypes.bool,
+  hideFormat: PropTypes.bool,
+  // Styles
   toolBarStyle: PropTypes.object,
   settingsIconStyle: PropTypes.object,
-
 };

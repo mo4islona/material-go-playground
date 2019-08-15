@@ -34,17 +34,29 @@ const useStyles = makeStyles(theme => ({
     fontSize: "0.8rem",
     opacity: 0.6,
   },
+  successText: {
+    flex: 1,
+    paddingTop: 12,
+    overflow: 'scroll'
+  }
 }));
 
-export default function Result({ events, loading, resultMaxHeight }) {
+export default function Result({events, loading, resultHeight}) {
   const classes = useStyles();
 
-  if (!events || !events.length) return null;
+  if (!events || !events.length) {
+    if (!resultHeight) return null;
+
+    return <Paper className={classes.success}>
+      <div className={classes.successText} style={{height: resultHeight || 'auto'}}/>
+    </Paper>
+  }
+  ;
 
   return (
     <Paper className={classes.success} style={{opacity: loading ? 0.5 : 1}}>
       <IconButton disableRipple className={classes.successIcon}><Ok/></IconButton>
-      <div style={{ flex: 1, paddingTop: 12, maxHeight: resultMaxHeight || 'auto', overflow: 'scroll' }}>
+      <div className={classes.successText} style={{height: resultHeight || 'auto', maxHeight: resultHeight || 'auto'}}>
         {events.map((l, i) => (
           <div key={i}>{l.Message}<span className={classes.delay}>{l.Delay ? formatDelay(l.Delay) : null}</span></div>
         ))}
