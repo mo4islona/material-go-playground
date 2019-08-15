@@ -1,6 +1,6 @@
 # React Material UI Component for Golang playground
 
-[Demo](https://www.google.com)
+[Demo](http://mo4islona.github.io/material-go-playground/)
 
 ## Install
 ```shell

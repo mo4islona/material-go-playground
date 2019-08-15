@@ -1,6 +1,6 @@
 {
   "name": "material-go-playground",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "React Material UI component for Golang playground",
   "engines": {
     "node": "^10.15.3",
