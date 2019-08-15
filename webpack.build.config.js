@@ -12,36 +12,39 @@ module.exports = {
     libraryExport: 'default',
     libraryTarget: "umd",
     umdNamedDefine: true
-    // libraryTarget: "commonjs2",
   },
 
   resolve: {
     extensions: [".js", ".jsx"],
   },
 
-  // plugins: [
-  //   new BundleAnalyzerPlugin()
-  // ],
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ],
 
   optimization: {
-    minimizer: [new TerserPlugin({ /* additional options here */})],
+    minimizer: [new TerserPlugin({})],
   },
-  externals: {
-    react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react',
-      umd: 'react',
+
+  externals: [
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+        umd: 'react',
+      },
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom',
+        umd: 'react-dom',
+      },
     },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom',
-      umd: 'react-dom',
-    },
-  },
+    /@material-ui\/core\/.*/,
+  ],
 
   module: {
     rules: [
@@ -62,7 +65,5 @@ module.exports = {
         ],
       },
     ],
-
   },
-
 };

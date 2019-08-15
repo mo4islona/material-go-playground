@@ -1,1 +1,1 @@
-export default from './GoPlayground';
+export { default } from './GoPlayground';

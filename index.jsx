@@ -2,11 +2,11 @@ import React from "react";
 import { render } from "react-dom";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Grid from "@material-ui/core/Grid";
-import GoPlayground from "./src/GoPlayground";
+// import GoPlayground from "./dist";
+import GoPlayground from "./src";
 import orange from "@material-ui/core/colors/orange";
 import green from "@material-ui/core/colors/green";
-import { Typography } from "@material-ui/core";
-import createTheme from "./src/createTheme";
+import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
@@ -43,12 +43,13 @@ const codeLongOutput = `package main
 import (
   "fmt"
   "time"
+  "math/rand"
 )
 
 func main() {
   for i:=0; i<=30; i++ {
     fmt.Println("Hello, playground")
-    time.Sleep(1)
+    time.Sleep(time.Duration(rand.Intn(5)))
   }
 }`;
 
@@ -83,21 +84,57 @@ func main() {
   fmt.Println(strutil.StripSlashes(example_str))
 }`;
 
-function Title({ children }) {
+
+const codeTestFail = `
+package main
+
+import (
+  "testing"
+)
+
+func Abs(i int) int {
+  return 5
+}
+
+func TestAbs(t *testing.T) {
+    got := Abs(-1)
+    if got != 1 {
+        t.Errorf("Abs(-1) = %d; want 1", got)
+    }
+}
+`
+const codeTestSuccess = `
+package main
+
+import (
+  "testing"
+)
+
+func Abs(i int) int {
+  return 1
+}
+
+func TestAbs(t *testing.T) {
+    got := Abs(-1)
+    if got != 1 {
+        t.Errorf("Abs(-1) = %d; want 1", got)
+    }
+}
+`
+
+function Title({children}) {
   return <Typography variant="body1">{children}</Typography>;
 }
 
 function App() {
   return (
-    <MuiThemeProvider theme={createTheme()}>
+    <MuiThemeProvider>
       <AppBar>
         <Toolbar>
           <Typography variant="h6">React go playground component</Typography>
         </Toolbar>
       </AppBar>
-
-      <div style={{ marginTop: 80 }}>
-
+      <div style={{marginTop: 80}}>
         <Grid container spacing={2}>
           <Grid item sm={6} xs={12}>
             <GoPlayground
@@ -114,7 +151,7 @@ function App() {
             />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Custom theme</Typography>
+            <Typography variant="h6" style={{fontWeight: 400, marginTop: -6}}>Custom theme</Typography>
             <GoPlayground code={code} theme={{
               palette: {
                 primary: {
@@ -133,9 +170,8 @@ function App() {
               },
             }}/>
           </Grid>
-
           <Grid item sm={6} xs={12}>
-            <Typography variant="h6" style={{ fontFamily: "monospace" }}>Minimal with custom font</Typography>
+            <Typography variant="h6" style={{fontFamily: "monospace"}}>Minimal with custom font</Typography>
             <GoPlayground
               code={code}
               color='light'
@@ -203,7 +239,7 @@ function App() {
                 <img
                   src="https://golang.org/lib/godoc/images/go-logo-blue.svg"
                   height={33}
-                  style={{ position: "relative", top: 3, marginRight: 12 }}
+                  style={{position: "relative", top: 3, marginRight: 12}}
                 />
               }
               theme={{
@@ -222,14 +258,30 @@ function App() {
               resultHeight={80}
               editorHeight={150}
               compactButtons
-              title={<Title>Editor height 150px<br />Result height 80px</Title>}
+              title={<Title>Editor height 150px<br/>Result height 80px</Title>}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Without header</Typography>
+            <Typography variant="h6" style={{fontWeight: 400, marginTop: -6}}>Without header</Typography>
             <GoPlayground
               code={code}
               hideHeader
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              title={<Title>Test fail</Title>}
+              code={codeTestFail}
+              hideFormat
+              compactButtons
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              title={<Title>Test success</Title>}
+              code={codeTestSuccess}
+              hideFormat
+              compactButtons
             />
           </Grid>
         </Grid>

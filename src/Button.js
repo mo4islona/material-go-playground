@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import MatButton from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -29,7 +29,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const Button = React.forwardRef(({ editor, url, icon, children, onRun, onResult, onError, compactButtons }, ref) => {
+const Button = forwardRef((
+  {
+    editor,
+    url,
+    icon,
+    children,
+    onRun,
+    onResult,
+    onError,
+    compactButtons
+  }, ref) => {
   const [loading, setIsLoading] = useState();
   const classes = useStyles();
 
@@ -56,7 +66,7 @@ const Button = React.forwardRef(({ editor, url, icon, children, onRun, onResult,
   }
 
   return (
-    <MatButton ref={ref} onClick={onClick} disabled={loading} variant="contained" color="primary">
+    <MatButton size="small" ref={ref} onClick={onClick} disabled={loading} variant="contained" color="primary">
       <div className={classes.iconWrapper}>
         {icon}
         <Fade in={loading} timeout={100}>

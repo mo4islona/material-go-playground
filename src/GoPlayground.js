@@ -15,7 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import PlayArrow from "@material-ui/icons/PlayArrow";
-import Format from "@material-ui/icons/Spellcheck";
+import Format from "@material-ui/icons/FormatAlignLeft";
 
 import AppBar from "./AppBar";
 import Button from "./Button";
@@ -29,13 +29,17 @@ const useStyles = makeStyles(theme => ({
     ".CodeMirror": {
       fontSize: "0.8rem",
     },
+
     ".cm-s-darcula .lineerror, .cm-s-darcula .lineerror *": {
       background: "#564646",
-      color: "#ff4040 !important",
+      color: "#ff4040",
     },
     ".cm-s-default .lineerror, .cm-s-default .lineerror *": {
       background: "#fdd",
-      color: "red !important",
+      color: "red",
+    },
+    ".CodeMirror-selected": {
+      zIndex: '1000 !important'
     },
   },
   root: {
@@ -98,17 +102,20 @@ export default function GoPlayground(props) {
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
+
   const classes = useStyles(theme);
   const [result, setResult] = useState({});
   const [running, setRunning] = useState(false);
   const editor = useRef({});
   const runBtn = useRef();
+  const formatBtn = useRef();
+
   useEffect(() => {
-    editor.current.cm = CodeMirror(editor.current, {
-      value: code,
+    const cm = CodeMirror(editor.current, {
+      value: code.trim(),
       mode: "go",
       lineNumbers: true,
-      tabSize: 4,
+      tabSize: 2,
       smartTabs: true,
       autoSave: true,
       indentWithTabs: true,
@@ -120,17 +127,38 @@ export default function GoPlayground(props) {
         "Cmd-Enter": function () {
           runBtn.current.click();
         },
+        "Shift-Enter": function () {
+          formatBtn.current.click();
+        },
       },
       theme: theme.palette.type === "light" ? "default" : "darcula",
       readOnly,
     });
-    editor.current.cm.setSize(null, editorHeight)
+
+    cm.setSelection({
+        'line': cm.firstLine(),
+        'ch': 0,
+        'sticky': null
+      }, {
+        'line': cm.lastLine(),
+        'ch': 0,
+        'sticky': null
+      },
+      {scroll: false});
+    //auto indent the selection
+    cm.indentSelection("smart");
+    cm.setCursor(0, 0)
+
+    cm.setSize(null, editorHeight)
+
+    editor.current.cm = cm;
     editor.current.errors = [];
   }, []);
 
   useEffect(() => {
     editor.current.cm.setOption("theme", theme.palette.type === "light" ? "default" : "darcula");
   }, [theme.palette.type]);
+
 
   function onResult(json) {
     setResult(json);
@@ -153,7 +181,7 @@ export default function GoPlayground(props) {
   return (
     <MuiThemeProvider theme={theme}>
       <AppBar position="static" className={classes.root}>
-        {!hideHeader && <Toolbar className={classes.toolbar} style={toolBarStyle}>
+        <Toolbar className={classes.toolbar} style={{...toolBarStyle, display: hideHeader ? 'none' : null}}>
           <div className={classes.header}>
             {title && <span className={classes.title}>{title}</span>}
             <Button
@@ -169,6 +197,7 @@ export default function GoPlayground(props) {
               Run
             </Button>
             {!hideFormat && <Button
+              ref={formatBtn}
               editor={editor}
               url={server + "fmt"}
               icon={<Format/>}
@@ -185,7 +214,7 @@ export default function GoPlayground(props) {
             themeExtend={themeExtend}
             settingsIconStyle={settingsIconStyle}
           />
-        </Toolbar>}
+        </Toolbar>
 
         <Paper>
           <div className={classes.editor} ref={editor} style={{height: editorHeight}}/>
@@ -196,7 +225,7 @@ export default function GoPlayground(props) {
             <div className={classes.resultOverlay}><CircularProgress color="secondary"/></div>
           </Fade>
           <Errors errors={result.Errors} loading={running} resultHeight={resultHeight}/>
-          <Result events={result.Events} loading={running} resultHeight={resultHeight}/>
+          <Result result={result} loading={running} resultHeight={resultHeight}/>
         </div>
       </AppBar>
     </MuiThemeProvider>
@@ -218,3 +247,5 @@ GoPlayground.propTypes = {
   toolBarStyle: PropTypes.object,
   settingsIconStyle: PropTypes.object,
 };
+
+GoPlayground.createTheme = createTheme;

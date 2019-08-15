@@ -2,6 +2,7 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import IconButton from "@material-ui/core/IconButton";
 import Ok from "@material-ui/icons/Check";
+import Error from "@material-ui/icons/ReportProblem";
 import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles(theme => ({
@@ -14,10 +15,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1 / 2),
     borderRadius: theme.shape.borderRadius,
     color: theme.palette.text.primary,
-    fontSize: "1rem",
+    fontSize: "0.9rem",
   },
   successIcon: {
-    color: "green",
     border: 0,
     background: "none",
     margin: theme.spacing(1),
@@ -38,28 +38,55 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     paddingTop: 12,
     overflow: 'scroll'
+  },
+  pre: {
+    margin: 0,
+    fontSize: "0.8rem",
   }
 }));
 
-export default function Result({events, loading, resultHeight}) {
+export default function Result({result, loading, resultHeight}) {
   const classes = useStyles();
 
-  if (!events || !events.length) {
+  const { Events, IsTest, TestsFailed } = result;
+
+  if (!Events || !Events.length) {
     if (!resultHeight) return null;
 
     return <Paper className={classes.success}>
       <div className={classes.successText} style={{height: resultHeight || 'auto'}}/>
     </Paper>
   }
-  ;
+
+  const success = !TestsFailed;
 
   return (
     <Paper className={classes.success} style={{opacity: loading ? 0.5 : 1}}>
-      <IconButton disableRipple className={classes.successIcon}><Ok/></IconButton>
+      <IconButton
+        disableRipple
+        className={classes.successIcon}
+        style={{color: success ? 'green' : 'red'}}
+      >
+        {success ? <Ok/> : <Error/>}
+      </IconButton>
       <div className={classes.successText} style={{height: resultHeight || 'auto', maxHeight: resultHeight || 'auto'}}>
-        {events.map((l, i) => (
-          <div key={i}>{l.Message}<span className={classes.delay}>{l.Delay ? formatDelay(l.Delay) : null}</span></div>
-        ))}
+
+        {Events.map(({Message, Delay}, i) => {
+          if (IsTest) {
+            return (
+              <div key={i}>
+                {Message.split('\n').map((l,i) => <pre key={i} className={classes.pre}>{l}</pre>)}
+              </div>
+            )
+          }
+
+          return (
+            <div key={i}>
+              {Message}
+              <span className={classes.delay}>{Delay ? formatDelay(Delay) : null}</span>
+            </div>
+          )
+        })}
         <pre className={classes.buildResult}>Program exited.</pre>
       </div>
     </Paper>

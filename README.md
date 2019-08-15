@@ -1,14 +1,18 @@
-# React Component for Golang playground
+# React Material UI Component for Golang playground
 
 
 ## Install
 ```shell
-yarn add react-go-playground
+yarn add material-go-playground
 ```
+
 ## Usage
 
+```jsx
+import React from "react";
+import { render } from "react-dom";
+import GoPlayground from "material-go-playground";
 
-```js
 const code = `package main
 
 import (
@@ -19,7 +23,13 @@ func main() {
   fmt.Println("Hello, playground")
 }`;
 
-<GoPlayground
-   code={code}
-/>
+function App() {
+  return <GoPlayground code={code}/>
+}
+
+render(
+  <App/>,
+  document.getElementById("root"),
+);
 ```
+
