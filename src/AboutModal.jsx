@@ -93,12 +93,12 @@ and no main function,
           </ul>
 
           <Typography variant="body1">
-            The article "
+            The article
+            &ldquo;
             <a rel="noopener noreferrer" href="https://blog.golang.org/playground" target="_blank">
-Inside
-            the Go Playground
+              Inside the Go Playground
             </a>
-" describes how the playground is implemented.
+&rdquo; describes how the playground is implemented.
             The source code is available at
             {' '}
             <a
@@ -160,8 +160,7 @@ security@golang.org
   );
 }
 
-
 AboutModal.propTypes = {
-  open: PropTypes.bool,
-  handleToggle: PropTypes.func,
+  open: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 };

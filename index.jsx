@@ -3,11 +3,14 @@ import { render } from 'react-dom';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import Grid from '@material-ui/core/Grid';
+import orange from '@material-ui/core/colors/orange';
+import green from '@material-ui/core/colors/green';
 
 // import GoPlayground xxxxfrom "./dist";
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Message from '@material-ui/icons/Send';
 import GoPlayground from './src';
 import ShareButton from './src/ShareButton';
 
@@ -141,17 +144,183 @@ function App() {
         </Toolbar>
       </AppBar>
       <div style={{ marginTop: 60 }}>
-        {/* <Grid container spacing={2}> */}
-        {/*  <Grid item sm={12} xs={12}> */}
-        <GoPlayground
-          code={code2}
-          title={<Title>Goplay ground</Title>}
-          editorHeight={height * 0.6}
-          resultHeight={height * 0.25}
-        />
-        {/* </Grid> */}
+        <Grid container spacing={2}>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              code={code2}
+              title={<Title>Goplay ground</Title>}
+              // editorHeight={height * 0.6}
+              // resultHeight={height * 0.25}
+              appendButtons={(
+                <ShareButton
+                  icon={<Message />}
+                  path="share"
+                  onError={alert}
+                  onResult={() => {
+                    <Tooltip
+                      open
+                      TransitionComponent={Fade}
+                      TransitionProps={{ timeout: 600 }}
+                      title="Links has been copied to your clipboard"
+                    />;
+                  }}
+                >
+                  Share
+                </ShareButton>
+              )}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              title={<Title>Light theme</Title>}
+              code={code2}
+              color="light"
+              useTextOnButton
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Custom theme</Typography>
+            <GoPlayground
+              code={code}
+              theme={{
+                palette: {
+                  primary: {
+                    main: orange[500],
+                  },
+                },
+                overrides: {
+                  MuiButton: {
+                    root: {
+                      borderRadius: '20px !important',
+                    },
+                  },
+                },
+              }}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <Typography variant="h6" style={{ fontFamily: 'monospace' }}>Minimal with custom font</Typography>
+            <GoPlayground
+              code={code}
+              color="light"
+              useTextOnButton={false}
+              hideFormat
+              theme={{
+                palette: {
+                  primary: {
+                    main: green[500],
+                  },
+                  secondary: {
+                    main: orange[500],
+                  },
+                },
+                typography: {
+                  fontFamily: 'monospace',
+                },
+                overrides: {
+                  MuiButton: {
+                    root: {
+                      borderRadius: '20px !important',
+                    },
+                  },
+                },
+              }}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              code={codeError}
+              useTextOnButton={false}
+              showFormat={false}
+              title={<Title>With error</Title>}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              code={codeImports}
+              useTextOnButton={false}
+              showFormat={false}
+              title={<Title>Imports</Title>}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              code={code}
+              readOnly
+              hideFormat
+              useTextOnButton={false}
+              showFormat={false}
+              title={<Title>Readonly</Title>}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              code={code}
+              color="light"
+              hideFormat
+              toolBarStyle={{
+                padding: 0,
+              }}
+              settingsIconStyle={{
+                color: '#aaa',
+              }}
+              title={(
+                <img
+                  src="https://golang.org/lib/godoc/images/go-logo-blue.svg"
+                  height={33}
+                  style={{ position: 'relative', top: 3, marginRight: 12 }}
+                />
+)}
+              theme={{
+                palette: {
+                  primary: {
+                    main: '#fff',
+                  },
+                },
+              }}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              code={codeLongOutput}
+              hideFormat
+              editorHeight={150}
+              resultHeight={80}
+              useTextOnButton
+              title={(
+                <Title>
+Editor height 150px
+                  <br />
+Result height 80px
+                </Title>
+)}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Without header</Typography>
+            <GoPlayground
+              code={code}
+              hideHeader
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              title={<Title>Test fail</Title>}
+              code={codeTestFail}
+              hideFormat
+              useTextOnButton={false}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
+              title={<Title>Test success</Title>}
+              code={codeTestSuccess}
+              hideFormat
+              useTextOnButton={false}
+            />
+          </Grid>
 
-        {/* </Grid> */}
+        </Grid>
       </div>
     </MuiThemeProvider>
   );
@@ -182,7 +351,7 @@ render(
 }
 { /*    code={codeError} */
 }
-{ /*    useTextOnButtons */
+{ /*    useTextOnButton */
 }
 { /*    showFormat={false} */
 }
@@ -202,7 +371,7 @@ render(
               title={<Title>Light theme</Title>}
               code={code2}
               color='light'
-              useTextOnButtons
+              useTextOnButton
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -227,7 +396,7 @@ render(
             <GoPlayground
               code={code}
               color='light'
-              useTextOnButtons
+              useTextOnButton
               hideFormat
               theme={{
                 palette: {
@@ -253,14 +422,14 @@ render(
           <Grid item sm={6} xs={12}>
             <GoPlayground
               code={codeError}
-              useTextOnButtons showFormat={false}
+              useTextOnButton showFormat={false}
               title={<Title>With error</Title>}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
               code={codeImports}
-              useTextOnButtons showFormat={false}
+              useTextOnButton showFormat={false}
               title={<Title>Imports</Title>}
             />
           </Grid>
@@ -269,7 +438,7 @@ render(
               code={code}
               readOnly
               hideFormat
-              useTextOnButtons showFormat={false}
+              useTextOnButton showFormat={false}
               title={<Title>Readonly</Title>}
             />
           </Grid>
@@ -306,7 +475,7 @@ render(
               hideFormat
               editorHeight={150}
               resultHeight={80}
-              useTextOnButtons
+              useTextOnButton
               title={<Title>Editor height 150px<br/>Result height 80px</Title>}
             />
           </Grid>
@@ -322,7 +491,7 @@ render(
               title={<Title>Test fail</Title>}
               code={codeTestFail}
               hideFormat
-              useTextOnButtons
+              useTextOnButton
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -330,7 +499,7 @@ render(
               title={<Title>Test success</Title>}
               code={codeTestSuccess}
               hideFormat
-              useTextOnButtons
+              useTextOnButton
             />
           </Grid>
  */

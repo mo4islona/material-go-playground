@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import ResultIcon from './ResultIcon';
+import { ServerResponse } from './prop-types/server';
 
 const useStyles = makeStyles((theme) => ({
   errors: {
@@ -31,15 +33,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Errors({
-  result, errors, loading, resultHeight
+  result, loading, resultHeight
 }) {
   const classes = useStyles();
 
   if (!result) return null;
 
 
-  const { Errors } = result;
-  if (!Errors) return null;
+  const { Errors: errors } = result;
+  if (!errors) return null;
 
   return (
     <Paper
@@ -52,9 +54,19 @@ export default function Errors({
     >
       <ResultIcon color="red" success={false} />
       <div className={classes.buildText} style={{ height: resultHeight || 'auto', maxHeight: resultHeight || 'auto' }}>
-        <pre style={{ whiteSpace: 'pre-wrap' }}>{Errors}</pre>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{errors}</pre>
         <pre className={classes.buildResult}>Go build failed.</pre>
       </div>
     </Paper>
   );
 }
+
+Errors.propTypes = {
+  result: ServerResponse.isRequired,
+  loading: PropTypes.bool,
+  resultHeight: PropTypes.number.isRequired,
+};
+
+Errors.defaultProps = {
+  loading: false,
+};

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import ThemeOptions from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import List from '@material-ui/core/List';
@@ -12,6 +13,7 @@ import Divider from '@material-ui/core/Divider';
 import Switch from '@material-ui/core/Switch';
 import Brightness from '@material-ui/icons/BrightnessMedium';
 import Keyboard from '@material-ui/icons/Keyboard';
+import ViewCompact from '@material-ui/icons/ViewCompact';
 import Info from '@material-ui/icons/Info';
 import SettingsIcon from '@material-ui/icons/Settings';
 import createTheme from './createTheme';
@@ -59,7 +61,12 @@ export default function Settings({
 
   return (
     <>
-      <Menu open={!!anchorEl} anchorEl={anchorEl} onClose={handleMenuClose} className={classes.root}>
+      <Menu
+        open={!!anchorEl}
+        anchorEl={anchorEl}
+        onClose={handleMenuClose}
+        className={classes.root}
+      >
         <List disablePadding className={classes.list}>
           <MenuItem button onClick={toggleShortKeyModal}>
             <ListItemIcon>
@@ -82,14 +89,16 @@ export default function Settings({
           </MenuItem>
           <MenuItem button onClick={changeTheme}>
             <ListItemIcon>
-              <Brightness />
+              <ViewCompact />
             </ListItemIcon>
             <ListItemText secondary="Compact button" />
             <ListItemSecondaryAction>
               <Switch
-                onChange={() => { setTextOnButton(!useTextOnButton) }}
+                onChange={() => {
+                  setTextOnButton(!useTextOnButton);
+                }}
                 edge="end"
-                checked={useTextOnButton}
+                checked={!useTextOnButton}
               />
             </ListItemSecondaryAction>
           </MenuItem>
@@ -112,4 +121,15 @@ export default function Settings({
   );
 }
 
-Settings.theme = PropTypes.object;
+Settings.propTypes = {
+  theme: PropTypes.instanceOf(ThemeOptions).isRequired,
+  themeExtend: PropTypes.instanceOf(ThemeOptions).isRequired,
+  setTheme: PropTypes.func.isRequired,
+  setTextOnButton: PropTypes.bool.isRequired,
+  useTextOnButton: PropTypes.func.isRequired,
+  settingsIconStyle: PropTypes.objectOf(PropTypes.string),
+};
+
+Settings.defaultProps = {
+  settingsIconStyle: {}
+};

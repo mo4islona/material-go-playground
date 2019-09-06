@@ -28,7 +28,8 @@ export default function ResultIcon({ color, success }) {
 }
 
 ResultIcon.propTypes = {
-  success: PropTypes.bool.isRequired
+  success: PropTypes.bool,
+  color: PropTypes.string
 };
 
 ResultIcon.defaultProps = {

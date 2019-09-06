@@ -11,6 +11,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/darcula.css';
 
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import ThemeInterface from '@material-ui/core/styles';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -18,9 +19,6 @@ import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import Format from '@material-ui/icons/FormatAlignLeft';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import Message from '@material-ui/icons/Message';
 import { render } from 'react-dom';
 import App from './App';
 import Button from './Button';
@@ -29,7 +27,6 @@ import Errors from './Errors';
 import Result from './Result';
 import createTheme from './createTheme';
 import SendButton from './SendButton';
-import ShareButton from './ShareButton';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -93,26 +90,30 @@ const errReg = /prog\.go:(\d+):(\d+):(.+)/g;
 
 export default function GoPlayground(props) {
   const {
-    title = null,
+    title,
     code,
-    color = 'dark',
-    server = 'https://play.golang.org/',
-    hideFormat = false,
-    hideHeader = false,
-    readOnly = false,
-    toolBarStyle = {},
-    theme: themeExtend = {},
-    settingsIconStyle = {},
-    editorHeight = 300,
-    resultHeight = 80,
+    color,
+    server,
+    hideFormat,
+    hideHeader,
+    readOnly,
+    toolBarStyle,
+    theme: themeExtend,
+    settingsIconStyle,
+    editorHeight,
+    resultHeight,
+    appendButtons,
+    useTextOnButton,
+    style
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
   const classes = useStyles(theme);
   const [result, setResult] = useState({});
   const [running, setRunning] = useState(false);
-  // const [shareLink, SetShareLink] = useState(false);
-  const [useTextOnButton, setTextOnButton] = useState(props.useTextOnButton);
+  const [textOnButton, setTextOnButton] = useState(
+    useTextOnButton === undefined ? true : useTextOnButton
+  );
   const editor = useRef({});
   const runBtn = useRef();
   const formatBtn = useRef();
@@ -188,19 +189,19 @@ export default function GoPlayground(props) {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <App className={classes.root}>
+      <App className={classes.root} style={style}>
         <Toolbar className={classes.toolbar} style={{ ...toolBarStyle, display: hideHeader ? 'none' : null }}>
           <div className={classes.header} style={{ flex: `0 0 ${editorHeight}` }}>
             {title && <span className={classes.title}>{title}</span>}
             <SendButton
-              ref={editor}
+              ref={{ editor, runBtn }}
               url={`${server}compile`}
               icon={<PlayArrow />}
               onRun={() => setRunning(true)}
               onResult={onResult}
               onError={alert}
               color="secondary"
-              useTextOnButton={useTextOnButton}
+              textOnButton={textOnButton}
             >
               Run
             </SendButton>
@@ -212,36 +213,23 @@ export default function GoPlayground(props) {
                 icon={<Format />}
                 onResult={setResult}
                 onError={alert}
-                onClick={(e) => {
-                  // console.log(777, editor.current.cm, e.current.cm);
-                }}
-                useTextOnButton={useTextOnButton}
+                textOnButton={textOnButton}
               >
                 Format
               </Button>
             )}
-
-            <ShareButton
-              ref={editor}
-              url={`${server}share`}
-              icon={<Message />}
-              onRun={() => setRunning(true)}
-              onError={alert}
-              onResult={() => {
-
-
-              }}
-              useTextOnButton={useTextOnButton}
-            >
-                Share
-            </ShareButton>
+            {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
+              ref: editor,
+              url: `${server}${e.props.path}`,
+              useTextOnButton
+            }, e.props.children))}
           </div>
           <Settings
             theme={theme}
             setTheme={setTheme}
             themeExtend={themeExtend}
             settingsIconStyle={settingsIconStyle}
-            useTextOnButton={useTextOnButton}
+            textOnButton={textOnButton}
             setTextOnButton={setTextOnButton}
           />
         </Toolbar>
@@ -264,29 +252,42 @@ export default function GoPlayground(props) {
 GoPlayground.propTypes = {
   title: PropTypes.node,
   code: PropTypes.string.isRequired,
-  style: PropTypes.object,
+  style: PropTypes.objectOf(PropTypes.string),
   color: PropTypes.oneOf(['light', 'dark']),
-  theme: PropTypes.object,
+  theme: PropTypes.instanceOf(ThemeInterface),
   server: PropTypes.string,
   readOnly: PropTypes.bool,
-  resultHeight: PropTypes.number,
   hideHeader: PropTypes.bool,
   hideFormat: PropTypes.bool,
+  editorHeight: PropTypes.number,
+  resultHeight: PropTypes.number,
+  appendButtons: PropTypes.node,
+  useTextOnButton: PropTypes.bool,
   // Styles
-  toolBarStyle: PropTypes.object,
-  settingsIconStyle: PropTypes.object,
+  toolBarStyle: PropTypes.objectOf(PropTypes.string),
+  settingsIconStyle: PropTypes.objectOf(PropTypes.string),
+
+
+};
+
+GoPlayground.defaultProps = {
+  title: null,
+  style: {},
+  color: 'dark',
+  editorHeight: 300,
+  resultHeight: 80,
+  theme: {},
+  server: 'https://play.golang.org/',
+  readOnly: false,
+  hideHeader: false,
+  hideFormat: false,
+  appendButtons: null,
+  useTextOnButton: true,
+  settingsIconStyle: {},
+  toolBarStyle: {},
+
 };
 
 GoPlayground.create = (element, props) => {
   render(React.createElement(GoPlayground, props, null), element);
 };
-
-
-/*
-
-<Tooltip open={true}
- TransitionComponent={Fade}
- TransitionProps={{ timeout: 600 }}
- title="Links has been copied to your clipboard" />
-
- */

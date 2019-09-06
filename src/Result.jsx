@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import ResultIcon from './ResultIcon';
+import { ServerResponse } from './prop-types/server';
 
 const useStyles = makeStyles((theme) => ({
   success: {
@@ -40,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+function formatDelay(delay) {
+  return `+${delay}ms`;
+}
+
 export default function Result({ result, loading, resultHeight }) {
   const classes = useStyles();
 
@@ -59,17 +65,17 @@ export default function Result({ result, loading, resultHeight }) {
     <Paper className={classes.success} style={{ opacity: loading ? 0.5 : 1 }}>
       <ResultIcon sucess />
       <div className={classes.successText} style={{ height: resultHeight || 'auto', maxHeight: resultHeight || 'auto' }}>
-        {Events.map(({ Message, Delay }, i) => {
+        {Events.map(({ Message, Delay }) => {
           if (IsTest) {
             return (
-              <div key={i}>
-                {Message.split('\n').map((l, i) => <pre key={i} className={classes.pre}>{l}</pre>)}
+              <div key={Message}>
+                {Message.split('\n').map((l) => <pre key={l} className={classes.pre}>{l}</pre>)}
               </div>
             );
           }
 
           return (
-            <div key={i}>
+            <div key={Message}>
               {Message}
               <span className={classes.delay}>{Delay ? formatDelay(Delay) : null}</span>
             </div>
@@ -81,6 +87,13 @@ export default function Result({ result, loading, resultHeight }) {
   );
 }
 
-function formatDelay(delay) {
-  return `+${delay}ms`;
-}
+Result.propTypes = {
+  result: ServerResponse.isRequired,
+  loading: PropTypes.bool,
+  resultHeight: PropTypes.number,
+};
+
+Result.defaultProps = {
+  loading: false,
+  resultHeight: 0,
+};

@@ -5,8 +5,10 @@ import Button from './Button';
 
 const SimpleButton = forwardRef(({
   url, onError, onRun, onResult, children, icon, color, useTextOnButton
-}, editor) => {
+}, refs) => {
   const [loading, setIsLoading] = useState();
+
+  const { editor } = refs;
 
   async function handleClick() {
     setIsLoading(true);
@@ -56,12 +58,15 @@ SimpleButton.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.node,
   color: PropTypes.string,
+  useTextOnButton: PropTypes.bool,
 };
 
 SimpleButton.defaultProps = {
   url: 'https://play.golang.org/',
   icon: <ArrowPlayIcon />,
-  color: "primary",
+  color: 'primary',
+  useTextOnButton: true,
+  children: null,
   onRun: () => {
   },
   onResult: () => {

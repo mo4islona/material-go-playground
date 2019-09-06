@@ -5,9 +5,10 @@ import Button from './Button';
 
 const ShareButton = forwardRef(({
   url, onError, useTextOnButton, children
-}, editor) => {
+}, refs) => {
   const [loading, setIsLoading] = useState();
 
+  const { editor } = refs;
 
   async function handleClick() {
     setIsLoading(true);
@@ -23,7 +24,6 @@ const ShareButton = forwardRef(({
       });
 
       window.location.hash = await body.text();
-
     } catch (e) {
       onError(e.toString());
     } finally {
@@ -52,10 +52,14 @@ export default ShareButton;
 ShareButton.propTypes = {
   url: PropTypes.string,
   onError: PropTypes.func,
+  useTextOnButton: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 ShareButton.defaultProps = {
   url: 'https://play.golang.org/',
   onError: () => {
   },
+  useTextOnButton: true,
+  children: null,
 };
