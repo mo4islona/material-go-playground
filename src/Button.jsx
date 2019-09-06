@@ -35,21 +35,21 @@ const Button = (
     icon,
     children,
     loading,
-    useTextOnButton,
+    textOnButton,
     onClick,
   }
 ) => {
   const classes = useStyles();
 
   return (
-    <MatButton size={useTextOnButton ? 'medium' : 'small'} disabled={loading} onClick={onClick} variant="contained" color="primary">
+    <MatButton size={textOnButton ? 'medium' : 'small'} disabled={loading} onClick={onClick} variant="contained" color="primary">
       <div className={classes.iconWrapper}>
         {icon}
         <Fade in={loading} timeout={100}>
           <div className={classes.progress}><CircularProgress color="secondary" size={24} /></div>
         </Fade>
       </div>
-      {useTextOnButton && <div className={classes.text}>{children}</div>}
+      {textOnButton && <div className={classes.text}>{children}</div>}
     </MatButton>
   );
 };

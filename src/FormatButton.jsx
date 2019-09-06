@@ -1,9 +1,10 @@
 import React, { forwardRef, useState } from 'react';
-import Message from '@material-ui/icons/Send';
+import Message from '@material-ui/icons/Message';
 import PropTypes from 'prop-types';
+import FormatIcon from '@material-ui/icons/FormatAlignLeft';
 import Button from './Button';
 
-const ShareButton = forwardRef(({
+const FormatButton = forwardRef(({
   url, onError, textOnButton, children, icon
 }, refs) => {
   const [loading, setIsLoading] = useState();
@@ -46,22 +47,23 @@ const ShareButton = forwardRef(({
   );
 });
 
-export default ShareButton;
+export default FormatButton;
 
 
-ShareButton.propTypes = {
+FormatButton.propTypes = {
   url: PropTypes.string,
   onError: PropTypes.func,
   textOnButton: PropTypes.bool,
   children: PropTypes.node,
   icon: PropTypes.node,
+
 };
 
-ShareButton.defaultProps = {
+FormatButton.defaultProps = {
   url: 'https://play.golang.org/',
   onError: () => {
   },
   textOnButton: true,
   children: null,
-  icon: <Message />
+  icon: <FormatIcon />
 };

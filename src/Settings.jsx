@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import ThemeOptions from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import List from '@material-ui/core/List';
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Settings({
-  theme, setTheme, themeExtend, settingsIconStyle, setTextOnButton, useTextOnButton
+  theme, setTheme, themeExtend, settingsIconStyle, setTextOnButton, textOnButton
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -57,6 +56,10 @@ export default function Settings({
 
   function toggleShortKeyModal() {
     setshortKeyOpen(!shortKeyOpen);
+  }
+
+  function toggleTestButton() {
+    setTextOnButton(!textOnButton);
   }
 
   return (
@@ -87,18 +90,16 @@ export default function Settings({
               />
             </ListItemSecondaryAction>
           </MenuItem>
-          <MenuItem button onClick={changeTheme}>
+          <MenuItem button onClick={toggleTestButton}>
             <ListItemIcon>
               <ViewCompact />
             </ListItemIcon>
             <ListItemText secondary="Compact button" />
             <ListItemSecondaryAction>
               <Switch
-                onChange={() => {
-                  setTextOnButton(!useTextOnButton);
-                }}
+                onChange={toggleTestButton}
                 edge="end"
-                checked={!useTextOnButton}
+                checked={!textOnButton}
               />
             </ListItemSecondaryAction>
           </MenuItem>
@@ -122,11 +123,11 @@ export default function Settings({
 }
 
 Settings.propTypes = {
-  theme: PropTypes.instanceOf(ThemeOptions).isRequired,
-  themeExtend: PropTypes.instanceOf(ThemeOptions).isRequired,
+  theme: PropTypes.objectOf(PropTypes.any).isRequired,
+  themeExtend: PropTypes.objectOf(PropTypes.any).isRequired,
   setTheme: PropTypes.func.isRequired,
-  setTextOnButton: PropTypes.bool.isRequired,
-  useTextOnButton: PropTypes.func.isRequired,
+  setTextOnButton: PropTypes.func.isRequired,
+  textOnButton: PropTypes.bool.isRequired,
   settingsIconStyle: PropTypes.objectOf(PropTypes.string),
 };
 

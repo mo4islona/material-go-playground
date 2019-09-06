@@ -11,17 +11,14 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/darcula.css';
 
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import ThemeInterface from '@material-ui/core/styles';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import Format from '@material-ui/icons/FormatAlignLeft';
 import { render } from 'react-dom';
 import App from './App';
-import Button from './Button';
+import FormatButton from './FormatButton';
 import Settings from './Settings';
 import Errors from './Errors';
 import Result from './Result';
@@ -133,6 +130,7 @@ export default function GoPlayground(props) {
       keyMap: 'sublime',
       extraKeys: {
         'Cmd-Enter': function () {
+          console.log(runBtn)
           runBtn.current.click();
         },
         'Shift-Enter': function () {
@@ -196,7 +194,6 @@ export default function GoPlayground(props) {
             <SendButton
               ref={{ editor, runBtn }}
               url={`${server}compile`}
-              icon={<PlayArrow />}
               onRun={() => setRunning(true)}
               onResult={onResult}
               onError={alert}
@@ -206,22 +203,21 @@ export default function GoPlayground(props) {
               Run
             </SendButton>
             {!hideFormat && (
-              <Button
+              <FormatButton
                 ref={editor}
                 editor={editor}
                 url={`${server}fmt`}
-                icon={<Format />}
                 onResult={setResult}
                 onError={alert}
                 textOnButton={textOnButton}
               >
                 Format
-              </Button>
+              </FormatButton>
             )}
             {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
-              ref: editor,
+              ref: {editor},
               url: `${server}${e.props.path}`,
-              useTextOnButton
+              textOnButton
             }, e.props.children))}
           </div>
           <Settings
@@ -252,9 +248,9 @@ export default function GoPlayground(props) {
 GoPlayground.propTypes = {
   title: PropTypes.node,
   code: PropTypes.string.isRequired,
-  style: PropTypes.objectOf(PropTypes.string),
+  style: PropTypes.objectOf(PropTypes.any),
   color: PropTypes.oneOf(['light', 'dark']),
-  theme: PropTypes.instanceOf(ThemeInterface),
+  theme: PropTypes.objectOf(PropTypes.any),
   server: PropTypes.string,
   readOnly: PropTypes.bool,
   hideHeader: PropTypes.bool,
@@ -264,8 +260,8 @@ GoPlayground.propTypes = {
   appendButtons: PropTypes.node,
   useTextOnButton: PropTypes.bool,
   // Styles
-  toolBarStyle: PropTypes.objectOf(PropTypes.string),
-  settingsIconStyle: PropTypes.objectOf(PropTypes.string),
+  toolBarStyle: PropTypes.objectOf(PropTypes.any),
+  settingsIconStyle: PropTypes.objectOf(PropTypes.any),
 
 
 };

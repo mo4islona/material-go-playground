@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 
 const SimpleButton = forwardRef(({
-  url, onError, onRun, onResult, children, icon, color, useTextOnButton
+  url, onError, onRun, onResult, children, icon, color, textOnButton
 }, refs) => {
   const [loading, setIsLoading] = useState();
 
-  const { editor } = refs;
+  const { editor, runBtn } = refs;
 
   async function handleClick() {
     setIsLoading(true);
@@ -34,13 +34,14 @@ const SimpleButton = forwardRef(({
 
   return (
     <Button
+      ref={runBtn}
       icon={icon}
       loading={loading}
       onClick={handleClick}
       disabled={loading}
       variant="contained"
       color={color}
-      useTextOnButton={useTextOnButton}
+      textOnButton={textOnButton}
     >
       {children}
     </Button>
@@ -58,14 +59,14 @@ SimpleButton.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.node,
   color: PropTypes.string,
-  useTextOnButton: PropTypes.bool,
+  textOnButton: PropTypes.bool,
 };
 
 SimpleButton.defaultProps = {
   url: 'https://play.golang.org/',
   icon: <ArrowPlayIcon />,
   color: 'primary',
-  useTextOnButton: true,
+  textOnButton: true,
   children: null,
   onRun: () => {
   },
