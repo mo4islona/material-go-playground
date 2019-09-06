@@ -1,15 +1,16 @@
-import React from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   table: {
     '& td': {
       fontSize: '0.8rem',
@@ -18,12 +19,12 @@ const useStyles = makeStyles(theme => ({
       paddingLeft: 0,
     },
     '& tr:last-child td': {
-      borderBottom: 0
-    }
+      borderBottom: 0,
+    },
   },
 }));
 
-export default function ShortKeyModal({open, handleToggle}) {
+export default function ShortKeyModal({ open, handleToggle }) {
   const classes = useStyles();
 
   return (
@@ -33,7 +34,7 @@ export default function ShortKeyModal({open, handleToggle}) {
       scroll="paper"
       aria-labelledby="scroll-dialog-title"
     >
-      <DialogTitle id="scroll-dialog-title" style={{paddingBottom: 0}}>Key maps</DialogTitle>
+      <DialogTitle id="scroll-dialog-title" style={{ paddingBottom: 0 }}>Key maps</DialogTitle>
       <DialogContent component="div">
         <Table className={classes.table}>
           <TableHead>
@@ -84,5 +85,11 @@ export default function ShortKeyModal({open, handleToggle}) {
       </DialogContent>
     </Dialog>
 
-  )
+  );
 }
+
+
+ShortKeyModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired
+};

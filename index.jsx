@@ -1,14 +1,15 @@
-import React from "react";
-import { render } from "react-dom";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import Grid from "@material-ui/core/Grid";
-// import GoPlayground from "./dist";
-import GoPlayground from "./src";
-import orange from "@material-ui/core/colors/orange";
-import green from "@material-ui/core/colors/green";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import React from 'react';
+import { render } from 'react-dom';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import Grid from '@material-ui/core/Grid';
+
+// import GoPlayground xxxxfrom "./dist";
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import GoPlayground from './src';
+import ShareButton from './src/ShareButton';
 
 const code = `package main
 
@@ -102,7 +103,7 @@ func TestAbs(t *testing.T) {
         t.Errorf("Abs(-1) = %d; want 1", got)
     }
 }
-`
+`;
 const codeTestSuccess = `
 package main
 
@@ -120,34 +121,70 @@ func TestAbs(t *testing.T) {
         t.Errorf("Abs(-1) = %d; want 1", got)
     }
 }
-`
+`;
 
-function Title({children}) {
+function Title({ children }) {
   return <Typography variant="body1">{children}</Typography>;
 }
 
+const height = document.documentElement.clientHeight - 64 - 8;
+
+
 function App() {
   return (
-    <MuiThemeProvider>
+    <MuiThemeProvider theme={createMuiTheme()}>
       <AppBar>
         <Toolbar>
-          <Typography variant="h6">React go playground component</Typography>
+          <Typography variant="h6">Golang playground component</Typography>
         </Toolbar>
       </AppBar>
-      <div style={{marginTop: 80}}>
-        <Grid container spacing={2}>
-          <Grid item sm={6} xs={12}>
+      <div style={{ marginTop: 60 }}>
+        {/*<Grid container spacing={2}>*/}
+        {/*  <Grid item sm={12} xs={12}>*/}
             <GoPlayground
-              title={<Title>Default</Title>}
               code={code2}
+              title={<Title>Goplay ground</Title>}
+              editorHeight= {height * 0.6}
+              resultHeight= {height * 0.25}
             />
-          </Grid>
-          <Grid item sm={6} xs={12}>
+          {/*</Grid>*/}
+
+        {/*</Grid>*/}
+      </div>
+    </MuiThemeProvider>
+  );
+}
+
+render(
+  <App />,
+  document.getElementById('root'),
+);
+
+{/*<Grid item sm={6} xs={12}>*/}
+{/*  <GoPlayground*/}
+{/*    title={<Title>Default</Title>}*/}
+{/*    code={code}*/}
+{/*    resultHeight={30}*/}
+{/*  />*/}
+{/*</Grid>*/}
+{/*<Grid item sm={6} xs={12}>*/}
+{/*  <GoPlayground*/}
+{/*    code={codeError}*/}
+{/*    useTextOnButtons*/}
+{/*    showFormat={false}*/}
+{/*    title={<Title>With error</Title>}*/}
+{/*    resultHeight={30}*/}
+{/*  />*/}
+{/*</Grid>*/}
+
+/*
+
+<Grid item sm={6} xs={12}>
             <GoPlayground
               title={<Title>Light theme</Title>}
               code={code2}
               color='light'
-              compactButtons
+              useTextOnButtons
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -172,7 +209,7 @@ function App() {
             <GoPlayground
               code={code}
               color='light'
-              compactButtons
+              useTextOnButtons
               hideFormat
               theme={{
                 palette: {
@@ -198,14 +235,14 @@ function App() {
           <Grid item sm={6} xs={12}>
             <GoPlayground
               code={codeError}
-              compactButtons showFormat={false}
+              useTextOnButtons showFormat={false}
               title={<Title>With error</Title>}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
               code={codeImports}
-              compactButtons showFormat={false}
+              useTextOnButtons showFormat={false}
               title={<Title>Imports</Title>}
             />
           </Grid>
@@ -214,7 +251,7 @@ function App() {
               code={code}
               readOnly
               hideFormat
-              compactButtons showFormat={false}
+              useTextOnButtons showFormat={false}
               title={<Title>Readonly</Title>}
             />
           </Grid>
@@ -251,7 +288,7 @@ function App() {
               hideFormat
               editorHeight={150}
               resultHeight={80}
-              compactButtons
+              useTextOnButtons
               title={<Title>Editor height 150px<br/>Result height 80px</Title>}
             />
           </Grid>
@@ -267,7 +304,7 @@ function App() {
               title={<Title>Test fail</Title>}
               code={codeTestFail}
               hideFormat
-              compactButtons
+              useTextOnButtons
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -275,16 +312,7 @@ function App() {
               title={<Title>Test success</Title>}
               code={codeTestSuccess}
               hideFormat
-              compactButtons
+              useTextOnButtons
             />
           </Grid>
-        </Grid>
-      </div>
-    </MuiThemeProvider>
-  );
-}
-
-render(
-  <App/>,
-  document.getElementById("root"),
-);
+ */

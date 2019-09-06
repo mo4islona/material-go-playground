@@ -1,21 +1,21 @@
-const path = require("path");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: path.resolve("src/index.js"),
+  entry: path.resolve('src/index.js'),
   output: {
-    path: path.resolve("dist"),
-    filename: "widget.min.js",
-    library: "GoPlayground",
+    path: path.resolve('dist'),
+    filename: 'widget.min.js',
+    library: 'GoPlayground',
     libraryExport: 'default',
-    libraryTarget: "umd",
-    umdNamedDefine: true
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
   },
 
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: ['.js', '.jsx'],
   },
 
   // plugins: [
@@ -31,16 +31,16 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
           },
         ],
       },

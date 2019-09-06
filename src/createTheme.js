@@ -1,7 +1,7 @@
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 function isObject(item) {
-  return (item && typeof item === "object" && !Array.isArray(item));
+  return (item && typeof item === 'object' && !Array.isArray(item));
 }
 
 /**
@@ -14,26 +14,26 @@ function mergeDeep(target, ...sources) {
   const source = sources.shift();
 
   if (isObject(target) && isObject(source)) {
-    for (const key in source) {
+    Object.keys(source).forEach((key) => {
       if (isObject(source[key])) {
         if (!target[key]) Object.assign(target, { [key]: {} });
         mergeDeep(target[key], source[key]);
       } else {
         Object.assign(target, { [key]: source[key] });
       }
-    }
+    });
   }
 
   return mergeDeep(target, ...sources);
 }
 
-export default function createTheme(type = "dark", extend) {
+export default function createTheme(type = 'dark', extend) {
   return createMuiTheme(mergeDeep({
     palette: {
       type,
     },
     typography: {
-      fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"",
+      fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
     },
   }, extend));
 }

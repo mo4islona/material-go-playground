@@ -1,7 +1,8 @@
-import React from "react";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
     fontSize: theme.typography.fontSize,
@@ -13,8 +14,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function App({children}) {
+export default function App({ children }) {
   const classes = useStyles();
 
   return <div className={classes.root}>{children}</div>;
 }
+
+App.propTypes = {
+  children: PropTypes.node,
+};
+
+App.defaultProps = {
+  children: null,
+};
