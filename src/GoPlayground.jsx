@@ -18,8 +18,9 @@ import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import Format from '@material-ui/icons/FormatAlignLeft';
-import Message from '@material-ui/icons/Message';
+import Tooltip from '@material-ui/core/Tooltip';
 
+import Message from '@material-ui/icons/Message';
 import { render } from 'react-dom';
 import App from './App';
 import Button from './Button';
@@ -104,13 +105,13 @@ export default function GoPlayground(props) {
     settingsIconStyle = {},
     editorHeight = 300,
     resultHeight = 80,
-    extraButton = null,
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
   const classes = useStyles(theme);
   const [result, setResult] = useState({});
   const [running, setRunning] = useState(false);
+  // const [shareLink, SetShareLink] = useState(false);
   const [useTextOnButton, setTextOnButton] = useState(props.useTextOnButton);
   const editor = useRef({});
   const runBtn = useRef();
@@ -155,8 +156,6 @@ export default function GoPlayground(props) {
     cm.indentSelection('smart');
     cm.setCursor(0, 0);
 
-    cm.setSize(null, editorHeight);
-
     editor.current.cm = cm;
     editor.current.errors = [];
   }, []);
@@ -164,6 +163,10 @@ export default function GoPlayground(props) {
   useEffect(() => {
     editor.current.cm.setOption('theme', theme.palette.type === 'light' ? 'default' : 'darcula');
   }, [theme.palette.type]);
+
+  useEffect(() => {
+    editor.current.cm.setSize(null, editorHeight);
+  }, [editorHeight]);
 
   function onResult(json) {
     setResult(json);
@@ -217,17 +220,21 @@ export default function GoPlayground(props) {
                 Format
               </Button>
             )}
+
             <ShareButton
               ref={editor}
               url={`${server}share`}
               icon={<Message />}
               onRun={() => setRunning(true)}
               onError={alert}
+              onResult={() => {
+
+
+              }}
               useTextOnButton={useTextOnButton}
             >
-              Share
+                Share
             </ShareButton>
-            {extraButton}
           </div>
           <Settings
             theme={theme}
@@ -273,3 +280,13 @@ GoPlayground.propTypes = {
 GoPlayground.create = (element, props) => {
   render(React.createElement(GoPlayground, props, null), element);
 };
+
+
+/*
+
+<Tooltip open={true}
+ TransitionComponent={Fade}
+ TransitionProps={{ timeout: 600 }}
+ title="Links has been copied to your clipboard" />
+
+ */

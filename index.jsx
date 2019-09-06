@@ -127,8 +127,10 @@ function Title({ children }) {
   return <Typography variant="body1">{children}</Typography>;
 }
 
-const height = document.documentElement.clientHeight - 64 - 8;
-
+let height = document.documentElement.clientHeight - 64 - 8;
+window.onresize = function () {
+  height = document.documentElement.clientHeight - 64 - 8;
+};
 
 function App() {
   return (
@@ -139,17 +141,17 @@ function App() {
         </Toolbar>
       </AppBar>
       <div style={{ marginTop: 60 }}>
-        {/*<Grid container spacing={2}>*/}
-        {/*  <Grid item sm={12} xs={12}>*/}
-            <GoPlayground
-              code={code2}
-              title={<Title>Goplay ground</Title>}
-              editorHeight= {height * 0.6}
-              resultHeight= {height * 0.25}
-            />
-          {/*</Grid>*/}
+        {/* <Grid container spacing={2}> */}
+        {/*  <Grid item sm={12} xs={12}> */}
+        <GoPlayground
+          code={code2}
+          title={<Title>Goplay ground</Title>}
+          editorHeight={height * 0.6}
+          resultHeight={height * 0.25}
+        />
+        {/* </Grid> */}
 
-        {/*</Grid>*/}
+        {/* </Grid> */}
       </div>
     </MuiThemeProvider>
   );
@@ -160,22 +162,38 @@ render(
   document.getElementById('root'),
 );
 
-{/*<Grid item sm={6} xs={12}>*/}
-{/*  <GoPlayground*/}
-{/*    title={<Title>Default</Title>}*/}
-{/*    code={code}*/}
-{/*    resultHeight={30}*/}
-{/*  />*/}
-{/*</Grid>*/}
-{/*<Grid item sm={6} xs={12}>*/}
-{/*  <GoPlayground*/}
-{/*    code={codeError}*/}
-{/*    useTextOnButtons*/}
-{/*    showFormat={false}*/}
-{/*    title={<Title>With error</Title>}*/}
-{/*    resultHeight={30}*/}
-{/*  />*/}
-{/*</Grid>*/}
+{ /* <Grid item sm={6} xs={12}> */
+}
+{ /*  <GoPlayground */
+}
+{ /*    title={<Title>Default</Title>} */
+}
+{ /*    code={code} */
+}
+{ /*    resultHeight={30} */
+}
+{ /*  /> */
+}
+{ /* </Grid> */
+}
+{ /* <Grid item sm={6} xs={12}> */
+}
+{ /*  <GoPlayground */
+}
+{ /*    code={codeError} */
+}
+{ /*    useTextOnButtons */
+}
+{ /*    showFormat={false} */
+}
+{ /*    title={<Title>With error</Title>} */
+}
+{ /*    resultHeight={30} */
+}
+{ /*  /> */
+}
+{ /* </Grid> */
+}
 
 /*
 
