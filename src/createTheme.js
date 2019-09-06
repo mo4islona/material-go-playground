@@ -16,10 +16,10 @@ function mergeDeep(target, ...sources) {
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach((key) => {
       if (isObject(source[key])) {
-        if (!target[key]) Object.assign(target, { [key]: {} });
+        if (!target[key]) Object.assign(target, {[key]: {}});
         mergeDeep(target[key], source[key]);
       } else {
-        Object.assign(target, { [key]: source[key] });
+        Object.assign(target, {[key]: source[key]});
       }
     });
   }
@@ -31,6 +31,10 @@ export default function createTheme(type = 'dark', extend) {
   return createMuiTheme(mergeDeep({
     palette: {
       type,
+      primary: {
+        main: '#01acd7',
+        contrastText: '#fff',
+      }
     },
     typography: {
       fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',

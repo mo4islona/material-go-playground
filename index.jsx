@@ -13,6 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Message from '@material-ui/icons/Send';
 import GoPlayground from './src';
 import ShareButton from './src/ShareButton';
+import createTheme from "./src/createTheme";
 
 const code = `package main
 
@@ -134,7 +135,7 @@ window.onresize = function () {
 
 function App() {
   return (
-    <MuiThemeProvider theme={createMuiTheme()}>
+    <MuiThemeProvider theme={createTheme()}>
       <AppBar>
         <Toolbar>
           <Typography variant="h6">Golang playground component</Typography>
