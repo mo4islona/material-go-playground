@@ -13,7 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Message from '@material-ui/icons/Send';
 import GoPlayground from './src';
 import ShareButton from './src/ShareButton';
-import createTheme from "./src/createTheme";
+import createTheme from './src/createTheme';
 
 const code = `package main
 
@@ -258,7 +258,9 @@ function App() {
                 <img
                   src="https://golang.org/lib/godoc/images/go-logo-blue.svg"
                   height={33}
-                  style={{ position: 'relative', top: 3, marginRight: 16, left: 12 }}
+                  style={{
+                    position: 'relative', top: 3, marginRight: 16, left: 12
+                  }}
                 />
               )}
               theme={{
@@ -321,40 +323,6 @@ render(
   <App />,
   document.getElementById('root'),
 );
-
-{ /* <Grid item sm={6} xs={12}> */
-}
-{ /*  <GoPlayground */
-}
-{ /*    title={'Default'} */
-}
-{ /*    code={code} */
-}
-{ /*    resultHeight={30} */
-}
-{ /*  /> */
-}
-{ /* </Grid> */
-}
-{ /* <Grid item sm={6} xs={12}> */
-}
-{ /*  <GoPlayground */
-}
-{ /*    code={codeError} */
-}
-{ /*    useTextOnButton */
-}
-{ /*    showFormat={false} */
-}
-{ /*    title={'With error'} */
-}
-{ /*    resultHeight={30} */
-}
-{ /*  /> */
-}
-{ /* </Grid> */
-}
-
 /*
 
 <Grid item sm={6} xs={12}>

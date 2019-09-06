@@ -17,6 +17,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import { render } from 'react-dom';
+import Typography from '@material-ui/core/Typography';
 import App from './App';
 import FormatButton from './FormatButton';
 import Settings from './Settings';
@@ -25,7 +26,6 @@ import Result from './Result';
 import createTheme from './createTheme';
 import SendButton from './SendButton';
 import ShareButton from './ShareButton';
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -283,10 +283,10 @@ GoPlayground.defaultProps = {
   useTextOnButton: true,
   settingsIconStyle: {},
   toolBarStyle: {},
-
 };
 
 GoPlayground.create = (element, props) => {
   render(React.createElement(GoPlayground, props, null), element);
 };
 GoPlayground.ShareButton = ShareButton;
+GoPlayground.createTheme = createTheme;
