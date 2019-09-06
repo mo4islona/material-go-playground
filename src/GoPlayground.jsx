@@ -24,6 +24,8 @@ import Errors from './Errors';
 import Result from './Result';
 import createTheme from './createTheme';
 import SendButton from './SendButton';
+import ShareButton from './ShareButton';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -130,7 +132,7 @@ export default function GoPlayground(props) {
       keyMap: 'sublime',
       extraKeys: {
         'Cmd-Enter': function () {
-          console.log(runBtn)
+          console.log(runBtn);
           runBtn.current.click();
         },
         'Shift-Enter': function () {
@@ -190,7 +192,7 @@ export default function GoPlayground(props) {
       <App className={classes.root} style={style}>
         <Toolbar className={classes.toolbar} style={{ ...toolBarStyle, display: hideHeader ? 'none' : null }}>
           <div className={classes.header} style={{ flex: `0 0 ${editorHeight}` }}>
-            {title && <span className={classes.title}>{title}</span>}
+            {title && <Typography variant="body1" className={classes.title}>{title}</Typography>}
             <SendButton
               ref={{ editor, runBtn }}
               url={`${server}compile`}
@@ -215,7 +217,7 @@ export default function GoPlayground(props) {
               </FormatButton>
             )}
             {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
-              ref: {editor},
+              ref: { editor },
               url: `${server}${e.props.path}`,
               textOnButton
             }, e.props.children))}
@@ -287,3 +289,4 @@ GoPlayground.defaultProps = {
 GoPlayground.create = (element, props) => {
   render(React.createElement(GoPlayground, props, null), element);
 };
+GoPlayground.ShareButton = ShareButton;

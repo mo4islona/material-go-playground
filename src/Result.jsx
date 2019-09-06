@@ -49,7 +49,7 @@ function formatDelay(delay) {
 export default function Result({ result, loading, resultHeight }) {
   const classes = useStyles();
 
-  const { Events, IsTest } = result;
+  const { Events, IsTest, TestsFailed } = result;
 
   if (!Events) {
     if (!resultHeight || Events === null) return null;
@@ -63,7 +63,7 @@ export default function Result({ result, loading, resultHeight }) {
 
   return (
     <Paper className={classes.success} style={{ opacity: loading ? 0.5 : 1 }}>
-      <ResultIcon sucess />
+      <ResultIcon sucess={!!TestsFailed} color={!!TestsFailed ? 'red': ' green'} />
       <div className={classes.successText} style={{ height: resultHeight || 'auto', maxHeight: resultHeight || 'auto' }}>
         {Events.map(({ Message, Delay }) => {
           if (IsTest) {

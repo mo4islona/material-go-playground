@@ -126,9 +126,6 @@ func TestAbs(t *testing.T) {
 }
 `;
 
-function Title({ children }) {
-  return <Typography variant="body1">{children}</Typography>;
-}
 
 let height = document.documentElement.clientHeight - 64 - 8;
 window.onresize = function () {
@@ -148,7 +145,7 @@ function App() {
           <Grid item sm={6} xs={12}>
             <GoPlayground
               code={code2}
-              title={<Title>Goplay ground</Title>}
+              title="Goplay ground"
               // editorHeight={height * 0.6}
               // resultHeight={height * 0.25}
               appendButtons={(
@@ -156,14 +153,6 @@ function App() {
                   icon={<Message />}
                   path="share"
                   onError={alert}
-                  onResult={() => {
-                    <Tooltip
-                      open
-                      TransitionComponent={Fade}
-                      TransitionProps={{ timeout: 600 }}
-                      title="Links has been copied to your clipboard"
-                    />;
-                  }}
                 >
                   Share
                 </ShareButton>
@@ -172,7 +161,7 @@ function App() {
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
-              title={<Title>Light theme</Title>}
+              title="Light theme"
               code={code2}
               color="light"
               useTextOnButton
@@ -232,7 +221,7 @@ function App() {
               code={codeError}
               useTextOnButton={false}
               showFormat={false}
-              title={<Title>With error</Title>}
+              title="With error"
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -240,7 +229,7 @@ function App() {
               code={codeImports}
               useTextOnButton={false}
               showFormat={false}
-              title={<Title>Imports</Title>}
+              title="Imports"
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -250,7 +239,7 @@ function App() {
               hideFormat
               useTextOnButton={false}
               showFormat={false}
-              title={<Title>Readonly</Title>}
+              title="Readonly"
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -268,9 +257,9 @@ function App() {
                 <img
                   src="https://golang.org/lib/godoc/images/go-logo-blue.svg"
                   height={33}
-                  style={{ position: 'relative', top: 3, marginRight: 12 }}
+                  style={{ position: 'relative', top: 3, marginRight: 16, left: 12 }}
                 />
-)}
+              )}
               theme={{
                 palette: {
                   primary: {
@@ -288,11 +277,12 @@ function App() {
               resultHeight={80}
               useTextOnButton
               title={(
-                <Title>
-Editor height 150px
+                <div>
+
+              Editor height 150px
                   <br />
-Result height 80px
-                </Title>
+              Result height 80px
+                </div>
 )}
             />
           </Grid>
@@ -305,7 +295,7 @@ Result height 80px
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
-              title={<Title>Test fail</Title>}
+              title="Test fail"
               code={codeTestFail}
               hideFormat
               useTextOnButton={false}
@@ -313,7 +303,7 @@ Result height 80px
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
-              title={<Title>Test success</Title>}
+              title="Test success"
               code={codeTestSuccess}
               hideFormat
               useTextOnButton={false}
@@ -335,7 +325,7 @@ render(
 }
 { /*  <GoPlayground */
 }
-{ /*    title={<Title>Default</Title>} */
+{ /*    title={'Default'} */
 }
 { /*    code={code} */
 }
@@ -355,7 +345,7 @@ render(
 }
 { /*    showFormat={false} */
 }
-{ /*    title={<Title>With error</Title>} */
+{ /*    title={'With error'} */
 }
 { /*    resultHeight={30} */
 }
@@ -368,7 +358,7 @@ render(
 
 <Grid item sm={6} xs={12}>
             <GoPlayground
-              title={<Title>Light theme</Title>}
+              title={'Light theme'}
               code={code2}
               color='light'
               useTextOnButton
@@ -423,14 +413,14 @@ render(
             <GoPlayground
               code={codeError}
               useTextOnButton showFormat={false}
-              title={<Title>With error</Title>}
+              title={'With error'}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
               code={codeImports}
               useTextOnButton showFormat={false}
-              title={<Title>Imports</Title>}
+              title={'Imports'}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -439,7 +429,7 @@ render(
               readOnly
               hideFormat
               useTextOnButton showFormat={false}
-              title={<Title>Readonly</Title>}
+              title={'Readonly'}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -476,7 +466,7 @@ render(
               editorHeight={150}
               resultHeight={80}
               useTextOnButton
-              title={<Title>Editor height 150px<br/>Result height 80px</Title>}
+              title={'Editor height 150px<br/>Result height 80px'}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
@@ -488,7 +478,7 @@ render(
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
-              title={<Title>Test fail</Title>}
+              title={'Test fail'}
               code={codeTestFail}
               hideFormat
               useTextOnButton
@@ -496,7 +486,7 @@ render(
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
-              title={<Title>Test success</Title>}
+              title={'Test success'}
               code={codeTestSuccess}
               hideFormat
               useTextOnButton
