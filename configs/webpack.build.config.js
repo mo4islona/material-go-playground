@@ -18,9 +18,9 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
 
-  plugins: [
-    new BundleAnalyzerPlugin(),
-  ],
+  // plugins: [
+  //   new BundleAnalyzerPlugin(),
+  // ],
 
   optimization: {
     minimizer: [new TerserPlugin({})],
