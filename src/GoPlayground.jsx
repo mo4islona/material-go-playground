@@ -32,17 +32,13 @@ const useStyles = makeStyles((theme) => ({
     '.CodeMirror': {
       fontSize: '0.8rem',
     },
-
     '.cm-s-darcula .lineerror, .cm-s-darcula .lineerror *': {
-      background: '#564646',
-      color: '#ff4040',
+      background: 'rgba(255,100,100,0.1)',
+      color: '#ff4040 !important',
     },
     '.cm-s-default .lineerror, .cm-s-default .lineerror *': {
-      background: '#fdd',
-      color: 'red',
-    },
-    '.CodeMirror-selected': {
-      zIndex: '1000 !important',
+      background: 'rgba(255,221,221,0.25)',
+      color: 'red !important',
     },
   },
   root: {

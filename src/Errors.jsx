@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buildText: {
     width: '100%',
-    overflow: 'hidden',
+    overflow: 'scroll',
   }
 }));
 
