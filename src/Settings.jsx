@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Settings({
-  theme, setTheme, themeExtend, settingsIconStyle, setTextOnButton, textOnButton
+  theme, setTheme, themeExtend, settingsIconStyle, setTextOnButton, textOnButton, disableThemeSwitch
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -77,19 +77,21 @@ export default function Settings({
             </ListItemIcon>
             <ListItemText secondary="Keyboard shortcut" />
           </MenuItem>
-          <MenuItem button onClick={changeTheme}>
-            <ListItemIcon>
-              <Brightness />
-            </ListItemIcon>
-            <ListItemText secondary="Dark theme" />
-            <ListItemSecondaryAction>
-              <Switch
-                onChange={changeTheme}
-                edge="end"
-                checked={theme.palette.type === 'dark'}
-              />
-            </ListItemSecondaryAction>
-          </MenuItem>
+          {!disableThemeSwitch && (
+            <MenuItem button onClick={changeTheme}>
+              <ListItemIcon>
+                <Brightness />
+              </ListItemIcon>
+              <ListItemText secondary="Dark theme" />
+              <ListItemSecondaryAction>
+                <Switch
+                  onChange={changeTheme}
+                  edge="end"
+                  checked={theme.palette.type === 'dark'}
+                />
+              </ListItemSecondaryAction>
+            </MenuItem>
+          )}
           <MenuItem button onClick={toggleTestButton}>
             <ListItemIcon>
               <ViewCompact />

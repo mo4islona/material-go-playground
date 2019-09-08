@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function App({ children }) {
+export default function App({ id, children }) {
   const classes = useStyles();
 
-  return <div className={classes.root}>{children}</div>;
+  return <div id={id} className={classes.root}>{children}</div>;
 }
 
 App.propTypes = {

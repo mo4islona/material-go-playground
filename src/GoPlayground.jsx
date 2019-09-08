@@ -1,6 +1,7 @@
 import React, {
-  useRef, useState, useEffect
+  useRef, useState, useEffect, createElement
 } from 'react';
+
 import PropTypes from 'prop-types';
 import CodeMirror from 'codemirror';
 import 'codemirror/mode/go/go';
@@ -26,6 +27,7 @@ import Result from './Result';
 import createTheme from './createTheme';
 import SendButton from './SendButton';
 import ShareButton from './ShareButton';
+import Editor from "./Editor";
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -85,6 +87,7 @@ const errReg = /prog\.go:(\d+):(\d+):(.+)/g;
 
 export default function GoPlayground(props) {
   const {
+    id,
     title,
     code,
     color,
@@ -99,7 +102,8 @@ export default function GoPlayground(props) {
     resultHeight,
     appendButtons,
     useTextOnButton,
-    style
+    style,
+    disableThemeSwitch
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
@@ -140,15 +144,15 @@ export default function GoPlayground(props) {
     });
 
     cm.setSelection({
-      line: cm.firstLine(),
-      ch: 0,
-      sticky: null,
-    }, {
-      line: cm.lastLine(),
-      ch: 0,
-      sticky: null,
-    },
-    { scroll: false });
+        line: cm.firstLine(),
+        ch: 0,
+        sticky: null,
+      }, {
+        line: cm.lastLine(),
+        ch: 0,
+        sticky: null,
+      },
+      {scroll: false});
     // auto indent the selection
     cm.indentSelection('smart');
     cm.setCursor(0, 0);
@@ -185,12 +189,12 @@ export default function GoPlayground(props) {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <App className={classes.root} style={style}>
-        <Toolbar className={classes.toolbar} style={{ ...toolBarStyle, display: hideHeader ? 'none' : null }}>
-          <div className={classes.header} style={{ flex: `0 0 ${editorHeight}` }}>
+      <App className={classes.root} style={style} id={id}>
+        <Toolbar className={classes.toolbar} style={{...toolBarStyle, display: hideHeader ? 'none' : null}}>
+          <div className={classes.header} style={{flex: `0 0 ${editorHeight}`}}>
             {title && <Typography variant="body1" className={classes.title}>{title}</Typography>}
             <SendButton
-              ref={{ editor, runBtn }}
+              ref={{editor, runBtn}}
               url={`${server}compile`}
               onRun={() => setRunning(true)}
               onResult={onResult}
@@ -202,7 +206,7 @@ export default function GoPlayground(props) {
             </SendButton>
             {!hideFormat && (
               <FormatButton
-                ref={editor}
+                ref={{editor, formatBtn}}
                 editor={editor}
                 url={`${server}fmt`}
                 onResult={setResult}
@@ -213,7 +217,7 @@ export default function GoPlayground(props) {
               </FormatButton>
             )}
             {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
-              ref: { editor },
+              ref: {editor},
               url: `${server}${e.props.path}`,
               textOnButton
             }, e.props.children))}
@@ -225,18 +229,18 @@ export default function GoPlayground(props) {
             settingsIconStyle={settingsIconStyle}
             textOnButton={textOnButton}
             setTextOnButton={setTextOnButton}
+            disableThemeSwitch={disableThemeSwitch}
           />
         </Toolbar>
-
         <Paper>
-          <div className={classes.editor} ref={editor} style={{ height: editorHeight }} />
+          <Editor className={classes.editor} ref={editor} style={{height: editorHeight}}/>
         </Paper>
         <div className={classes.result}>
           <Fade in={running} timeout={200}>
-            <div className={classes.resultOverlay}><CircularProgress color="secondary" /></div>
+            <div className={classes.resultOverlay}><CircularProgress color="secondary"/></div>
           </Fade>
-          <Result result={result} loading={running} resultHeight={resultHeight} />
-          <Errors result={result} loading={running} resultHeight={resultHeight} />
+          <Result result={result} loading={running} resultHeight={resultHeight}/>
+          <Errors result={result} loading={running} resultHeight={resultHeight}/>
         </div>
       </App>
     </MuiThemeProvider>
@@ -244,8 +248,9 @@ export default function GoPlayground(props) {
 }
 
 GoPlayground.propTypes = {
+  id: PropTypes.string,
   title: PropTypes.node,
-  code: PropTypes.string.isRequired,
+  code: PropTypes.string,
   style: PropTypes.objectOf(PropTypes.any),
   color: PropTypes.oneOf(['light', 'dark']),
   theme: PropTypes.objectOf(PropTypes.any),
@@ -261,12 +266,14 @@ GoPlayground.propTypes = {
   toolBarStyle: PropTypes.objectOf(PropTypes.any),
   settingsIconStyle: PropTypes.objectOf(PropTypes.any),
 
-
+  disableThemeSwitch: PropTypes.bool,
 };
 
 GoPlayground.defaultProps = {
+  id: null,
   title: null,
   style: {},
+  code: '',
   color: 'dark',
   editorHeight: 300,
   resultHeight: 80,
@@ -279,10 +286,5 @@ GoPlayground.defaultProps = {
   useTextOnButton: true,
   settingsIconStyle: {},
   toolBarStyle: {},
+  disableThemeSwitch: false
 };
-
-GoPlayground.create = (element, props) => {
-  render(React.createElement(GoPlayground, props, null), element);
-};
-GoPlayground.ShareButton = ShareButton;
-GoPlayground.createTheme = createTheme;

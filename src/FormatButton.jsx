@@ -1,15 +1,16 @@
 import React, { forwardRef, useState } from 'react';
-import Message from '@material-ui/icons/Message';
 import PropTypes from 'prop-types';
 import FormatIcon from '@material-ui/icons/FormatAlignLeft';
 import Button from './Button';
 
-const FormatButton = forwardRef(({
-  url, onError, textOnButton, children, icon
-}, refs) => {
+const FormatButton = forwardRef((
+  {
+    url, onError, textOnButton, children, icon
+  }, refs
+) => {
   const [loading, setIsLoading] = useState();
 
-  const { editor } = refs;
+  const { editor, formatBtn } = refs;
 
   async function handleClick() {
     setIsLoading(true);
@@ -34,6 +35,7 @@ const FormatButton = forwardRef(({
 
   return (
     <Button
+      ref={formatBtn}
       icon={icon}
       loading={loading}
       onClick={handleClick}

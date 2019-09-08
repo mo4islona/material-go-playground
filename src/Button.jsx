@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import MatButton from '@material-ui/core/Button';
@@ -29,30 +29,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-const Button = (
+const Button = forwardRef((
   {
     icon,
     children,
     loading,
     textOnButton,
     onClick,
-  }
-) => {
+  }, ref) => {
   const classes = useStyles();
 
   return (
-    <MatButton size={textOnButton ? 'medium' : 'small'} disabled={loading} onClick={onClick} variant="contained" color="primary">
+    <MatButton
+      ref={ref}
+      size={textOnButton ? 'medium' : 'small'}
+      disabled={loading}
+      onClick={onClick}
+      variant="contained"
+      color="primary"
+    >
       <div className={classes.iconWrapper}>
         {icon}
         <Fade in={loading} timeout={100}>
-          <div className={classes.progress}><CircularProgress color="secondary" size={24} /></div>
+          <div className={classes.progress}><CircularProgress color="secondary" size={24}/></div>
         </Fade>
       </div>
       {textOnButton && <div className={classes.text}>{children}</div>}
     </MatButton>
   );
-};
+});
 
 export default Button;
 

@@ -143,12 +143,11 @@ function App() {
       </AppBar>
       <div style={{ marginTop: 60 }}>
         <Grid container spacing={2}>
-          <Grid item sm={6} xs={12}>
+          <Grid item sm={12} xs={12}>
             <GoPlayground
+              id="playground"
               code={code2}
-              title="Goplay ground"
-              // editorHeight={height * 0.6}
-              // resultHeight={height * 0.25}
+              title="Go playground"
               appendButtons={(
                 <ShareButton
                   icon={<Message />}
@@ -169,7 +168,6 @@ function App() {
             />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Custom theme</Typography>
             <GoPlayground
               code={code}
               theme={{
@@ -189,7 +187,6 @@ function App() {
             />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <Typography variant="h6" style={{ fontFamily: 'monospace' }}>Minimal with custom font</Typography>
             <GoPlayground
               code={code}
               color="light"
@@ -280,17 +277,15 @@ function App() {
               resultHeight={80}
               useTextOnButton
               title={(
-                <div>
-
-              Editor height 150px
+                <span>
+                Editor height 150px
                   <br />
-              Result height 80px
-                </div>
+                Result height 80px
+                </span>
               )}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <Typography variant="h6" style={{ fontWeight: 400, marginTop: -6 }}>Without header</Typography>
             <GoPlayground
               code={code}
               hideHeader
@@ -298,18 +293,22 @@ function App() {
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
+              code={code}
+              hideHeader
+              readOnly
+              resultHeight={0}
+            />
+          </Grid>
+          <Grid item sm={6} xs={12}>
+            <GoPlayground
               title="Test fail"
               code={codeTestFail}
-              hideFormat
-              useTextOnButton={false}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
             <GoPlayground
               title="Test success"
               code={codeTestSuccess}
-              hideFormat
-              useTextOnButton={false}
             />
           </Grid>
 

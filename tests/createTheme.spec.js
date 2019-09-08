@@ -1,4 +1,4 @@
-import createTheme from './createTheme';
+import createTheme from '../src/createTheme';
 
 test('createTheme with light color will expect light theme', () => {
   expect(createTheme('light').palette.type).toBe('light');
