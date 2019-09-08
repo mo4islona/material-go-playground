@@ -1,6 +1,8 @@
 # React Material UI Component for Golang playground
 
-[Demo](http://mo4islona.github.io/material-go-playground/)
+<!--![Build](https://travis-ci.org/mo4islona/node-blockly.svg?branch=master)-->
+
+[Website](http://mo4islona.github.io/material-go-playground/)
 
 ## Install
 ```shell
@@ -33,42 +35,3 @@ render(
   document.getElementById("root"),
 );
 ```
-
-## Docs
-
-// TODO
-
-## Widget
-
-```
-<div id="editor"></div>
-<script src="https://unpkg.com/material-go-playground@0.0.7/dist/widget.min.js"></script>
-<script>
-  const code = `
-    package main
-
-    import (
-      "fmt"
-      "time"
-      "math/rand"
-    )
-
-    func main() {
-      for i:=0; i<=30; i++ {
-        fmt.Println("Hello, playground")
-        time.Sleep(time.Duration(rand.Intn(5)))
-      }
-  }`
-
-  const height = document.documentElement.clientHeight - 56 - 24;
-
-  GoPlayground.create(document.getElementById('editor'), {
-    code: code,
-    title: 'My example'
-  })
-</script>
-
-```
-
-[Widget demo](https://jsfiddle.net/mo4islona/a08unxjw/)
-
