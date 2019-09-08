@@ -36,7 +36,8 @@ const Button = forwardRef((
     loading,
     textOnButton,
     onClick,
-  }, ref) => {
+  }, ref
+) => {
   const classes = useStyles();
 
   return (
@@ -51,7 +52,7 @@ const Button = forwardRef((
       <div className={classes.iconWrapper}>
         {icon}
         <Fade in={loading} timeout={100}>
-          <div className={classes.progress}><CircularProgress color="secondary" size={24}/></div>
+          <div className={classes.progress}><CircularProgress color="secondary" size={24} /></div>
         </Fade>
       </div>
       {textOnButton && <div className={classes.text}>{children}</div>}

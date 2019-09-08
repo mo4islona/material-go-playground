@@ -63,12 +63,12 @@ export default function Result({ result, loading, resultHeight }) {
 
   return (
     <Paper className={classes.success} style={{ opacity: loading ? 0.5 : 1 }}>
-      <ResultIcon sucess={!!TestsFailed} color={!!TestsFailed ? 'red': ' green'} />
+      <ResultIcon sucess={!!TestsFailed} color={TestsFailed ? 'red' : ' green'} />
       <div className={classes.successText} style={{ height: resultHeight || 'auto', maxHeight: resultHeight || 'auto' }}>
-        {Events.map(({ Message, Delay }) => {
+        {Events.map(({ Message, Delay }, i) => {
           if (IsTest) {
             return (
-              <div key={Message}>
+              <div key={i + Message}>
                 {Message.split('\n').map((l) => <pre key={l} className={classes.pre}>{l}</pre>)}
               </div>
             );

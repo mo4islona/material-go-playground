@@ -13,14 +13,13 @@ const ShareButton = forwardRef(({
   async function handleClick() {
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append('body', editor.current.cm.getValue());
-
     try {
       const body = await fetch(url, {
         method: 'POST',
-        body: formData,
-        mode: 'cors',
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+        },
+        body: editor.current.cm.getValue(),
       });
 
       window.location.hash = await body.text();

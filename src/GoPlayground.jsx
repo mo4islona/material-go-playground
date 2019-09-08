@@ -27,7 +27,7 @@ import Result from './Result';
 import createTheme from './createTheme';
 import SendButton from './SendButton';
 import ShareButton from './ShareButton';
-import Editor from "./Editor";
+import Editor from './Editor';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -132,7 +132,6 @@ export default function GoPlayground(props) {
       keyMap: 'sublime',
       extraKeys: {
         'Cmd-Enter': function () {
-          console.log(runBtn);
           runBtn.current.click();
         },
         'Shift-Enter': function () {
@@ -144,15 +143,15 @@ export default function GoPlayground(props) {
     });
 
     cm.setSelection({
-        line: cm.firstLine(),
-        ch: 0,
-        sticky: null,
-      }, {
-        line: cm.lastLine(),
-        ch: 0,
-        sticky: null,
-      },
-      {scroll: false});
+      line: cm.firstLine(),
+      ch: 0,
+      sticky: null,
+    }, {
+      line: cm.lastLine(),
+      ch: 0,
+      sticky: null,
+    },
+    { scroll: false });
     // auto indent the selection
     cm.indentSelection('smart');
     cm.setCursor(0, 0);
@@ -190,11 +189,11 @@ export default function GoPlayground(props) {
   return (
     <MuiThemeProvider theme={theme}>
       <App className={classes.root} style={style} id={id}>
-        <Toolbar className={classes.toolbar} style={{...toolBarStyle, display: hideHeader ? 'none' : null}}>
-          <div className={classes.header} style={{flex: `0 0 ${editorHeight}`}}>
+        <Toolbar className={classes.toolbar} style={{ ...toolBarStyle, display: hideHeader ? 'none' : null }}>
+          <div className={classes.header} style={{ flex: `0 0 ${editorHeight}` }}>
             {title && <Typography variant="body1" className={classes.title}>{title}</Typography>}
             <SendButton
-              ref={{editor, runBtn}}
+              ref={{ editor, runBtn }}
               url={`${server}compile`}
               onRun={() => setRunning(true)}
               onResult={onResult}
@@ -206,7 +205,7 @@ export default function GoPlayground(props) {
             </SendButton>
             {!hideFormat && (
               <FormatButton
-                ref={{editor, formatBtn}}
+                ref={{ editor, formatBtn }}
                 editor={editor}
                 url={`${server}fmt`}
                 onResult={setResult}
@@ -217,7 +216,7 @@ export default function GoPlayground(props) {
               </FormatButton>
             )}
             {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
-              ref: {editor},
+              ref: { editor },
               url: `${server}${e.props.path}`,
               textOnButton
             }, e.props.children))}
@@ -233,14 +232,14 @@ export default function GoPlayground(props) {
           />
         </Toolbar>
         <Paper>
-          <Editor className={classes.editor} ref={editor} style={{height: editorHeight}}/>
+          <Editor className={classes.editor} ref={editor} style={{ height: editorHeight }} />
         </Paper>
         <div className={classes.result}>
           <Fade in={running} timeout={200}>
-            <div className={classes.resultOverlay}><CircularProgress color="secondary"/></div>
+            <div className={classes.resultOverlay}><CircularProgress color="secondary" /></div>
           </Fade>
-          <Result result={result} loading={running} resultHeight={resultHeight}/>
-          <Errors result={result} loading={running} resultHeight={resultHeight}/>
+          <Result result={result} loading={running} resultHeight={resultHeight} />
+          <Errors result={result} loading={running} resultHeight={resultHeight} />
         </div>
       </App>
     </MuiThemeProvider>

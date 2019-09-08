@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import ArrowPlayIcon from '@material-ui/icons/PlayArrow';
 import PropTypes from 'prop-types';
 import Button from './Button';
+import sendData from './sendData';
 
 const SimpleButton = forwardRef(({
   url, onError, onRun, onResult, children, icon, color, textOnButton
@@ -13,15 +14,18 @@ const SimpleButton = forwardRef(({
   async function handleClick() {
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append('body', editor.current.cm.getValue());
-
     onRun(true);
     try {
       const body = await fetch(url, {
         method: 'POST',
-        body: formData,
-        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        body: sendData({
+          version: 2,
+          body: editor.current.cm.getValue(),
+          withVet: true
+        }),
       });
 
       onResult(await body.json());

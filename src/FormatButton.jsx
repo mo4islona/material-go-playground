@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import FormatIcon from '@material-ui/icons/FormatAlignLeft';
 import Button from './Button';
+import sendData from './sendData';
 
 const FormatButton = forwardRef((
   {
@@ -15,17 +16,19 @@ const FormatButton = forwardRef((
   async function handleClick() {
     setIsLoading(true);
 
-    const formData = new FormData();
-    formData.append('body', editor.current.cm.getValue());
-
     try {
       const body = await fetch(url, {
         method: 'POST',
-        body: formData,
-        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: sendData({
+          version: 2,
+          body: editor.current.cm.getValue(),
+        }),
       });
 
-      window.location.hash = await body.text();
+      editor.current.cm.setValue(await body.text());
     } catch (e) {
       onError(e.toString());
     } finally {
