@@ -110,12 +110,14 @@ export default function GoPlayground(props) {
   const classes = useStyles(theme);
   const [result, setResult] = useState({});
   const [running, setRunning] = useState(false);
-  const [textOnButton, setTextOnButton] = useState(
-    useTextOnButton === undefined ? true : useTextOnButton
-  );
+  const [textOnButton, setTextOnButton] = useState(useTextOnButton || true);
   const editor = useRef({});
   const runBtn = useRef();
   const formatBtn = useRef();
+
+  useEffect(() => {
+    setTextOnButton(useTextOnButton);
+  }, [useTextOnButton]);
 
   useEffect(() => {
     const cm = CodeMirror(editor.current, {
@@ -141,20 +143,6 @@ export default function GoPlayground(props) {
       theme: theme.palette.type === 'light' ? 'default' : 'darcula',
       readOnly,
     });
-
-    cm.setSelection({
-      line: cm.firstLine(),
-      ch: 0,
-      sticky: null,
-    }, {
-      line: cm.lastLine(),
-      ch: 0,
-      sticky: null,
-    },
-    { scroll: false });
-    // auto indent the selection
-    cm.indentSelection('smart');
-    cm.setCursor(0, 0);
 
     editor.current.cm = cm;
     editor.current.errors = [];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
@@ -127,13 +127,30 @@ func TestAbs(t *testing.T) {
 }
 `;
 
+function useWindowSize() {
+  function getSize() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+  }
 
-let height = document.documentElement.clientHeight - 64 - 8;
-window.onresize = function () {
-  height = document.documentElement.clientHeight - 64 - 8;
-};
+  const [windowSize, setWindowSize] = useState(getSize);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  return windowSize;
+}
 
 function App() {
+  const { width } = useWindowSize();
   return (
     <MuiThemeProvider theme={createTheme()}>
       <AppBar>
@@ -148,6 +165,7 @@ function App() {
               id="playground"
               code={code2}
               title="Go playground"
+              useTextOnButton={width > 500}
               appendButtons={(
                 <ShareButton
                   icon={<Message />}

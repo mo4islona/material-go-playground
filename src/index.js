@@ -10,8 +10,8 @@ GoPlayground.create = (element, props) => {
 GoPlayground.ShareButton = ShareButton;
 GoPlayground.createTheme = createTheme;
 
-GoPlayground.loadSnippet = async function (key, server = 'https://play.golang.org/') {
-  const body = await fetch(`${server}p/${key}`);
+GoPlayground.loadSnippet = async function loadSnippet(key, server = 'https://play.golang.org/') {
+  const body = await fetch(`${server}p/${key}.go`);
   return await body.text();
 };
 
