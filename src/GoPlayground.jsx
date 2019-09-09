@@ -1,5 +1,5 @@
 import React, {
-  useRef, useState, useEffect, createElement
+  useRef, useState, useEffect
 } from 'react';
 
 import PropTypes from 'prop-types';
@@ -26,7 +26,6 @@ import Errors from './Errors';
 import Result from './Result';
 import createTheme from './createTheme';
 import SendButton from './SendButton';
-import ShareButton from './ShareButton';
 import Editor from './Editor';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     alignItems: 'center',
-    color: '#fff',
+    color: theme.palette.primary.contrastText,
     flexGrow: 1,
     '& > *': {
       marginRight: theme.spacing(1),
