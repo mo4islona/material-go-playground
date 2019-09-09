@@ -175,6 +175,9 @@ function App() {
                   Share
                 </ShareButton>
               )}
+              onColorChange={(color) => {
+                console.log(`Color now is ${color}`);
+              }}
             />
           </Grid>
           <Grid item sm={6} xs={12}>

@@ -17,7 +17,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
-import { render } from 'react-dom';
 import Typography from '@material-ui/core/Typography';
 import App from './App';
 import FormatButton from './FormatButton';
@@ -102,7 +101,8 @@ export default function GoPlayground(props) {
     appendButtons,
     useTextOnButton,
     style,
-    disableThemeSwitch
+    disableThemeSwitch,
+    onColorChange
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
@@ -147,6 +147,11 @@ export default function GoPlayground(props) {
     editor.current.errors = [];
   }, []);
 
+  function handleThemeChange(newTheme) {
+    setTheme(newTheme);
+    onColorChange(newTheme.palette.type);
+  }
+
   useEffect(() => {
     editor.current.cm.setOption('theme', theme.palette.type === 'light' ? 'default' : 'darcula');
   }, [theme.palette.type]);
@@ -176,11 +181,11 @@ export default function GoPlayground(props) {
   return (
     <MuiThemeProvider theme={theme}>
       <App className={classes.root} style={style} id={id}>
-        <Toolbar className={classes.toolbar} style={{ ...toolBarStyle, display: hideHeader ? 'none' : null }}>
-          <div className={classes.header} style={{ flex: `0 0 ${editorHeight}` }}>
+        <Toolbar className={classes.toolbar} style={{...toolBarStyle, display: hideHeader ? 'none' : null}}>
+          <div className={classes.header} style={{flex: `0 0 ${editorHeight}`}}>
             {title && <Typography variant="body1" className={classes.title}>{title}</Typography>}
             <SendButton
-              ref={{ editor, runBtn }}
+              ref={{editor, runBtn}}
               url={`${server}compile`}
               onRun={() => setRunning(true)}
               onResult={onResult}
@@ -192,7 +197,7 @@ export default function GoPlayground(props) {
             </SendButton>
             {!hideFormat && (
               <FormatButton
-                ref={{ editor, formatBtn }}
+                ref={{editor, formatBtn}}
                 editor={editor}
                 url={`${server}fmt`}
                 onResult={setResult}
@@ -203,14 +208,14 @@ export default function GoPlayground(props) {
               </FormatButton>
             )}
             {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
-              ref: { editor },
+              ref: {editor},
               url: `${server}${e.props.path}`,
               textOnButton
             }, e.props.children))}
           </div>
           <Settings
             theme={theme}
-            setTheme={setTheme}
+            setTheme={handleThemeChange}
             themeExtend={themeExtend}
             settingsIconStyle={settingsIconStyle}
             textOnButton={textOnButton}
@@ -219,14 +224,14 @@ export default function GoPlayground(props) {
           />
         </Toolbar>
         <Paper>
-          <Editor className={classes.editor} ref={editor} style={{ height: editorHeight }} />
+          <Editor className={classes.editor} ref={editor} style={{height: editorHeight}}/>
         </Paper>
         <div className={classes.result}>
           <Fade in={running} timeout={200}>
-            <div className={classes.resultOverlay}><CircularProgress color="secondary" /></div>
+            <div className={classes.resultOverlay}><CircularProgress color="secondary"/></div>
           </Fade>
-          <Result result={result} loading={running} resultHeight={resultHeight} />
-          <Errors result={result} loading={running} resultHeight={resultHeight} />
+          <Result result={result} loading={running} resultHeight={resultHeight}/>
+          <Errors result={result} loading={running} resultHeight={resultHeight}/>
         </div>
       </App>
     </MuiThemeProvider>
@@ -253,6 +258,9 @@ GoPlayground.propTypes = {
   settingsIconStyle: PropTypes.objectOf(PropTypes.any),
 
   disableThemeSwitch: PropTypes.bool,
+
+  // Events
+  onColorChange: PropTypes.func,
 };
 
 GoPlayground.defaultProps = {
@@ -272,5 +280,7 @@ GoPlayground.defaultProps = {
   useTextOnButton: true,
   settingsIconStyle: {},
   toolBarStyle: {},
-  disableThemeSwitch: false
+  disableThemeSwitch: false,
+  onColorChange: () => {
+  }
 };
