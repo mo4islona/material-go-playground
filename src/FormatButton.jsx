@@ -6,7 +6,7 @@ import sendData from './sendData';
 
 const FormatButton = forwardRef((
   {
-    url, onError, textOnButton, children, icon
+    url, onError, textOnButton, children, icon, onRun
   }, refs
 ) => {
   const [loading, setIsLoading] = useState();
@@ -15,7 +15,7 @@ const FormatButton = forwardRef((
 
   async function handleClick() {
     setIsLoading(true);
-
+    onRun();
     try {
       const body = await fetch(url, {
         method: 'POST',
@@ -57,6 +57,7 @@ export default FormatButton;
 
 FormatButton.propTypes = {
   url: PropTypes.string,
+  onRun: PropTypes.func,
   onError: PropTypes.func,
   textOnButton: PropTypes.bool,
   children: PropTypes.node,
@@ -66,8 +67,8 @@ FormatButton.propTypes = {
 
 FormatButton.defaultProps = {
   url: 'https://play.golang.org/',
-  onError: () => {
-  },
+  onRun: () => {},
+  onError: () => {},
   textOnButton: true,
   children: null,
   icon: <FormatIcon />

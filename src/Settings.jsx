@@ -14,6 +14,7 @@ import Brightness from '@material-ui/icons/BrightnessMedium';
 import Keyboard from '@material-ui/icons/Keyboard';
 import ViewCompact from '@material-ui/icons/ViewCompact';
 import Info from '@material-ui/icons/Info';
+import ImportIcon from '@material-ui/icons/FileCopy';
 import SettingsIcon from '@material-ui/icons/Settings';
 import createTheme from './createTheme';
 import AboutModal from './AboutModal';
@@ -31,7 +32,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Settings({
-  theme, setTheme, themeExtend, settingsIconStyle, setTextOnButton, textOnButton, disableThemeSwitch
+  theme,
+  handleThemeChange,
+  themeExtend,
+  settingsIconStyle,
+  setTextOnButton,
+  textOnButton,
+  disableThemeSwitch,
+  useFormatImport,
+  setImportFormat
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -47,7 +56,7 @@ export default function Settings({
   }
 
   function changeTheme() {
-    setTheme(createTheme(theme.palette.type === 'dark' ? 'light' : 'dark', themeExtend));
+    handleThemeChange(createTheme(theme.palette.type === 'dark' ? 'light' : 'dark', themeExtend));
   }
 
   function toggleAboutModal() {
@@ -71,11 +80,31 @@ export default function Settings({
         className={classes.root}
       >
         <List disablePadding className={classes.list}>
-          <MenuItem button onClick={toggleShortKeyModal}>
+          <MenuItem button>
             <ListItemIcon>
-              <Keyboard />
+              <ImportIcon />
             </ListItemIcon>
-            <ListItemText secondary="Keyboard shortcut" />
+            <ListItemText secondary="Imports" />
+            <ListItemSecondaryAction>
+              <Switch
+                onChange={setImportFormat}
+                edge="end"
+                checked={useFormatImport}
+              />
+            </ListItemSecondaryAction>
+          </MenuItem>
+          <MenuItem button onClick={toggleTestButton}>
+            <ListItemIcon>
+              <ViewCompact />
+            </ListItemIcon>
+            <ListItemText secondary="Compact button" />
+            <ListItemSecondaryAction>
+              <Switch
+                onChange={toggleTestButton}
+                edge="end"
+                checked={!textOnButton}
+              />
+            </ListItemSecondaryAction>
           </MenuItem>
           {!disableThemeSwitch && (
             <MenuItem button onClick={changeTheme}>
@@ -92,20 +121,13 @@ export default function Settings({
               </ListItemSecondaryAction>
             </MenuItem>
           )}
-          <MenuItem button onClick={toggleTestButton}>
-            <ListItemIcon>
-              <ViewCompact />
-            </ListItemIcon>
-            <ListItemText secondary="Compact button" />
-            <ListItemSecondaryAction>
-              <Switch
-                onChange={toggleTestButton}
-                edge="end"
-                checked={!textOnButton}
-              />
-            </ListItemSecondaryAction>
-          </MenuItem>
           <Divider />
+          <MenuItem button onClick={toggleShortKeyModal}>
+            <ListItemIcon>
+              <Keyboard />
+            </ListItemIcon>
+            <ListItemText secondary="Keyboard shortcut" />
+          </MenuItem>
           <MenuItem button onClick={toggleAboutModal}>
             <ListItemIcon>
               <Info />
@@ -127,9 +149,10 @@ export default function Settings({
 Settings.propTypes = {
   theme: PropTypes.objectOf(PropTypes.any).isRequired,
   themeExtend: PropTypes.objectOf(PropTypes.any).isRequired,
-  setTheme: PropTypes.func.isRequired,
+  handleThemeChange: PropTypes.func.isRequired,
   setTextOnButton: PropTypes.func.isRequired,
   textOnButton: PropTypes.bool.isRequired,
+  disableThemeSwitch: PropTypes.bool.isRequired,
   settingsIconStyle: PropTypes.objectOf(PropTypes.string),
 };
 

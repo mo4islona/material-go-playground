@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Build from '@material-ui/icons/Build';
 import Paper from '@material-ui/core/Paper';
 import ResultIcon from './ResultIcon';
 import { ServerResponse } from './prop-types/server';
@@ -63,7 +64,7 @@ export default function Result({ result, loading, resultHeight }) {
 
   return (
     <Paper className={classes.success} style={{ opacity: loading ? 0.5 : 1 }}>
-      <ResultIcon sucess={!!TestsFailed} color={TestsFailed ? 'red' : ' green'} />
+      <ResultIcon icon={IsTest && <Build />} success={!TestsFailed} color={TestsFailed ? 'red' : ' green'} />
       <div className={classes.successText} style={{ height: resultHeight || 'auto', maxHeight: resultHeight || 'auto' }}>
         {Events.map(({ Message, Delay }, i) => {
           if (IsTest) {
@@ -73,7 +74,6 @@ export default function Result({ result, loading, resultHeight }) {
               </div>
             );
           }
-
           return (
             <div key={Message}>
               {Message}

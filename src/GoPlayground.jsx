@@ -100,15 +100,20 @@ export default function GoPlayground(props) {
     resultHeight,
     appendButtons,
     useTextOnButton,
+    useFormatImport,
     style,
     disableThemeSwitch,
-    onColorChange
+    onColorChange,
+    onRun,
+    onFormat,
+    onImportChange,
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
   const classes = useStyles(theme);
   const [result, setResult] = useState({});
   const [running, setRunning] = useState(false);
+  const [formatImport, setFormatImport] = useState(useFormatImport || false);
   const [textOnButton, setTextOnButton] = useState(useTextOnButton || true);
   const editor = useRef({});
   const runBtn = useRef();
@@ -134,9 +139,11 @@ export default function GoPlayground(props) {
       extraKeys: {
         'Cmd-Enter': function () {
           runBtn.current.click();
+          onRun();
         },
         'Shift-Enter': function () {
           formatBtn.current.click();
+          onFormat();
         },
       },
       theme: theme.palette.type === 'light' ? 'default' : 'darcula',
@@ -150,6 +157,11 @@ export default function GoPlayground(props) {
   function handleThemeChange(newTheme) {
     setTheme(newTheme);
     onColorChange(newTheme.palette.type);
+  }
+
+  function handleImportChange(val) {
+    setFormatImport(val);
+    onImportChange(val);
   }
 
   useEffect(() => {
@@ -187,7 +199,10 @@ export default function GoPlayground(props) {
             <SendButton
               ref={{editor, runBtn}}
               url={`${server}compile`}
-              onRun={() => setRunning(true)}
+              onRun={() => {
+                setRunning(true);
+                onRun();
+              }}
               onResult={onResult}
               onError={alert}
               color="secondary"
@@ -200,6 +215,7 @@ export default function GoPlayground(props) {
                 ref={{editor, formatBtn}}
                 editor={editor}
                 url={`${server}fmt`}
+                onRun={onFormat}
                 onResult={setResult}
                 onError={alert}
                 textOnButton={textOnButton}
@@ -215,12 +231,14 @@ export default function GoPlayground(props) {
           </div>
           <Settings
             theme={theme}
-            setTheme={handleThemeChange}
+            handleThemeChange={handleThemeChange}
             themeExtend={themeExtend}
             settingsIconStyle={settingsIconStyle}
             textOnButton={textOnButton}
             setTextOnButton={setTextOnButton}
             disableThemeSwitch={disableThemeSwitch}
+            useFormatImport={useFormatImport}
+            setImportFormat={handleImportChange}
           />
         </Toolbar>
         <Paper>
@@ -261,6 +279,12 @@ GoPlayground.propTypes = {
 
   // Events
   onColorChange: PropTypes.func,
+  onRun: PropTypes.func,
+  onFormat: PropTypes.func,
+  onImportChange: PropTypes.func,
+};
+
+const noop = () => {
 };
 
 GoPlayground.defaultProps = {
@@ -281,6 +305,8 @@ GoPlayground.defaultProps = {
   settingsIconStyle: {},
   toolBarStyle: {},
   disableThemeSwitch: false,
-  onColorChange: () => {
-  }
+  onColorChange: noop,
+  onRun: noop,
+  onFormat: noop,
+  onImportChange: noop,
 };

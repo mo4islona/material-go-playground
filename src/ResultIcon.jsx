@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ResultIcon({ color, success }) {
+export default function ResultIcon({ color, success, icon }) {
   const classes = useStyles();
 
   return (
@@ -22,7 +22,7 @@ export default function ResultIcon({ color, success }) {
       className={classes.icon}
       style={{ color }}
     >
-      {success ? <Ok /> : <Error />}
+      {icon || (success ? <Ok /> : <Error />)}
     </IconButton>
   );
 }
