@@ -14,7 +14,6 @@ import Brightness from '@material-ui/icons/BrightnessMedium';
 import Keyboard from '@material-ui/icons/Keyboard';
 import ViewCompact from '@material-ui/icons/ViewCompact';
 import Info from '@material-ui/icons/Info';
-import ImportIcon from '@material-ui/icons/FileCopy';
 import SettingsIcon from '@material-ui/icons/Settings';
 import createTheme from './createTheme';
 import AboutModal from './AboutModal';
@@ -39,8 +38,6 @@ export default function Settings({
   setTextOnButton,
   textOnButton,
   disableThemeSwitch,
-  useFormatImport,
-  setImportFormat
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -80,19 +77,6 @@ export default function Settings({
         className={classes.root}
       >
         <List disablePadding className={classes.list}>
-          <MenuItem button>
-            <ListItemIcon>
-              <ImportIcon />
-            </ListItemIcon>
-            <ListItemText secondary="Imports" />
-            <ListItemSecondaryAction>
-              <Switch
-                onChange={setImportFormat}
-                edge="end"
-                checked={useFormatImport}
-              />
-            </ListItemSecondaryAction>
-          </MenuItem>
           <MenuItem button onClick={toggleTestButton}>
             <ListItemIcon>
               <ViewCompact />

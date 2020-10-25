@@ -100,20 +100,17 @@ export default function GoPlayground(props) {
     resultHeight,
     appendButtons,
     useTextOnButton,
-    useFormatImport,
     style,
     disableThemeSwitch,
     onColorChange,
     onRun,
     onFormat,
-    onImportChange,
   } = props;
 
   const [theme, setTheme] = useState(createTheme(color, themeExtend));
   const classes = useStyles(theme);
   const [result, setResult] = useState({});
   const [running, setRunning] = useState(false);
-  const [formatImport, setFormatImport] = useState(useFormatImport || false);
   const [textOnButton, setTextOnButton] = useState(useTextOnButton || true);
   const editor = useRef({});
   const runBtn = useRef();
@@ -159,11 +156,6 @@ export default function GoPlayground(props) {
     onColorChange(newTheme.palette.type);
   }
 
-  function handleImportChange(val) {
-    setFormatImport(val);
-    onImportChange(val);
-  }
-
   useEffect(() => {
     editor.current.cm.setOption('theme', theme.palette.type === 'light' ? 'default' : 'darcula');
   }, [theme.palette.type]);
@@ -193,11 +185,11 @@ export default function GoPlayground(props) {
   return (
     <MuiThemeProvider theme={theme}>
       <App className={classes.root} style={style} id={id}>
-        <Toolbar className={classes.toolbar} style={{...toolBarStyle, display: hideHeader ? 'none' : null}}>
-          <div className={classes.header} style={{flex: `0 0 ${editorHeight}`}}>
+        <Toolbar className={classes.toolbar} style={{ ...toolBarStyle, display: hideHeader ? 'none' : null }}>
+          <div className={classes.header} style={{ flex: `0 0 ${editorHeight}` }}>
             {title && <Typography variant="body1" className={classes.title}>{title}</Typography>}
             <SendButton
-              ref={{editor, runBtn}}
+              ref={{ editor, runBtn }}
               url={`${server}compile`}
               onRun={() => {
                 setRunning(true);
@@ -212,7 +204,7 @@ export default function GoPlayground(props) {
             </SendButton>
             {!hideFormat && (
               <FormatButton
-                ref={{editor, formatBtn}}
+                ref={{ editor, formatBtn }}
                 editor={editor}
                 url={`${server}fmt`}
                 onRun={onFormat}
@@ -224,7 +216,7 @@ export default function GoPlayground(props) {
               </FormatButton>
             )}
             {React.Children.map(appendButtons, (e) => React.cloneElement(e, {
-              ref: {editor},
+              ref: { editor },
               url: `${server}${e.props.path}`,
               textOnButton
             }, e.props.children))}
@@ -237,19 +229,17 @@ export default function GoPlayground(props) {
             textOnButton={textOnButton}
             setTextOnButton={setTextOnButton}
             disableThemeSwitch={disableThemeSwitch}
-            useFormatImport={useFormatImport}
-            setImportFormat={handleImportChange}
           />
         </Toolbar>
         <Paper>
-          <Editor className={classes.editor} ref={editor} style={{height: editorHeight}}/>
+          <Editor className={classes.editor} ref={editor} style={{ height: editorHeight }} />
         </Paper>
         <div className={classes.result}>
           <Fade in={running} timeout={200}>
-            <div className={classes.resultOverlay}><CircularProgress color="secondary"/></div>
+            <div className={classes.resultOverlay}><CircularProgress color="secondary" /></div>
           </Fade>
-          <Result result={result} loading={running} resultHeight={resultHeight}/>
-          <Errors result={result} loading={running} resultHeight={resultHeight}/>
+          <Result result={result} loading={running} resultHeight={resultHeight} />
+          <Errors result={result} loading={running} resultHeight={resultHeight} />
         </div>
       </App>
     </MuiThemeProvider>
@@ -281,7 +271,6 @@ GoPlayground.propTypes = {
   onColorChange: PropTypes.func,
   onRun: PropTypes.func,
   onFormat: PropTypes.func,
-  onImportChange: PropTypes.func,
 };
 
 const noop = () => {
@@ -308,5 +297,4 @@ GoPlayground.defaultProps = {
   onColorChange: noop,
   onRun: noop,
   onFormat: noop,
-  onImportChange: noop,
 };

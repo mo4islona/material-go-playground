@@ -1,6 +1,6 @@
 {
   "name": "material-go-playground",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "React Material UI component for Golang playground",
   "keywords": [
     "react",
