@@ -1,13 +1,12 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   mode: 'development',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  cache: false,
   entry: [
     'react-hot-loader/patch', // activate HMR for React
     'webpack-dev-server/client?http://localhost:8080', // bundle the client for webpack-dev-server and connect to the provided endpoint
@@ -35,9 +34,8 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({template: 'index.html'}),
+    new HtmlWebpackPlugin({ template: 'index.html' }),
     new webpack.HotModuleReplacementPlugin(), // enable HMR globally
-    new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
     // new BundleAnalyzerPlugin(),
   ],
   optimization: {
@@ -59,5 +57,5 @@ module.exports = {
   devServer: {
     hot: true, // enable HMR on the server
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
 };

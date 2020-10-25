@@ -28,7 +28,8 @@ const FormatButton = forwardRef((
         }),
       });
 
-      editor.current.cm.setValue(await body.text());
+      const res = await body.json();
+      editor.current.cm.setValue(res.Body);
     } catch (e) {
       onError(e.toString());
     } finally {
@@ -53,7 +54,6 @@ const FormatButton = forwardRef((
 });
 
 export default FormatButton;
-
 
 FormatButton.propTypes = {
   url: PropTypes.string,

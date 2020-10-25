@@ -11,7 +11,7 @@ import 'codemirror/addon/comment/comment';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/darcula.css';
 
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
